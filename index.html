@@ -3,37 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>心理测试</title>
+<title>你该换工作，还是换活法？</title>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#f4efe5;
-  --bg2:#efe7d8;
-  --card:#fffdf9;
-  --accent:#bb8a5e;
-  --accent-deep:#a06f44;
-  --accent-soft:rgba(187,138,94,0.12);
-  --text:#473d31;
-  --text-soft:#5d5346;
-  --muted:#9a917f;
-  --border:rgba(71,61,49,0.09);
-  --sel-bg:rgba(187,138,94,0.10);
+  --bg:#f4efe5;--bg2:#efe7d8;--card:#fffdf9;
+  --accent:#bb8a5e;--accent-deep:#a06f44;--accent-soft:rgba(187,138,94,0.12);
+  --text:#473d31;--text-soft:#5d5346;--muted:#9a917f;
+  --border:rgba(71,61,49,0.09);--sel-bg:rgba(187,138,94,0.10);
 }
 html,body{width:100%;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(120% 60% at 50% 0%,rgba(187,138,94,0.07) 0%,transparent 55%),var(--bg);pointer-events:none;z-index:0}
-
 #app{position:relative;z-index:1;width:100%;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:env(safe-area-inset-bottom)}
 
-/* ── COVER ── */
+/* COVER */
 #pageCover{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:56px 32px;text-align:center}
 .emblem{width:78px;height:78px;margin:0 auto 34px;position:relative;flex-shrink:0}
-.emblem span{position:absolute;border-radius:50%;border:1px solid var(--accent);opacity:.5}
+.emblem span{position:absolute;border-radius:50%;border:1px solid var(--accent)}
 .emblem span:nth-child(1){inset:0;opacity:.28}
 .emblem span:nth-child(2){inset:13px;opacity:.5}
 .emblem span:nth-child(3){inset:26px;opacity:.75}
 .emblem i{position:absolute;width:9px;height:9px;background:var(--accent);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
 .cover-cat{font-size:11px;letter-spacing:4px;color:var(--accent-deep);margin-bottom:20px;font-weight:500}
-.cover-title{font-size:26px;font-weight:700;line-height:1.5;color:var(--text);margin-bottom:16px;word-break:keep-all;overflow-wrap:break-word}
+.cover-title{font-size:27px;font-weight:700;line-height:1.5;color:var(--text);margin-bottom:16px;word-break:keep-all;overflow-wrap:break-word}
 .cover-sub{font-size:14px;color:var(--muted);line-height:1.9;margin-bottom:30px}
 .cover-modules{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:46px}
 .cover-mod{font-size:12px;color:var(--accent-deep);background:var(--accent-soft);border:1px solid var(--border);border-radius:100px;padding:6px 14px}
@@ -41,7 +33,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(120% 6
 .btn-start:active{transform:scale(.97);box-shadow:0 4px 12px rgba(187,138,94,.22)}
 .cover-hint{font-size:12px;color:var(--muted);margin-top:20px;opacity:.75;letter-spacing:.3px}
 
-/* ── QUESTION ── */
+/* QUESTION */
 #pageQuestion{display:none;flex-direction:column;min-height:100vh}
 .prog-track{height:3px;background:rgba(71,61,49,0.07)}
 .prog-fill{height:100%;background:linear-gradient(90deg,var(--accent-deep),var(--accent));transition:width .45s cubic-bezier(.4,0,.2,1)}
@@ -49,7 +41,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(120% 6
 .q-meta{display:flex;align-items:center;gap:10px;margin-bottom:20px}
 .q-mod{font-size:11px;color:var(--accent-deep);background:var(--accent-soft);border-radius:100px;padding:4px 11px;letter-spacing:.5px;font-weight:500}
 .q-num{font-size:12px;color:var(--muted);letter-spacing:2px;font-weight:500}
-.q-text{font-size:20px;font-weight:600;line-height:1.6;color:var(--text);word-break:keep-all;overflow-wrap:break-word;transition:opacity .25s}
+.q-text{font-size:20px;font-weight:600;line-height:1.6;color:var(--text);word-break:keep-all;overflow-wrap:break-word}
 .opts{padding:26px 20px 36px;display:flex;flex-direction:column;gap:11px}
 .opt{display:flex;align-items:center;gap:14px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px;min-height:62px;cursor:pointer;box-shadow:0 2px 10px rgba(71,61,49,.03);transition:border-color .2s,background .2s,transform .15s;opacity:0;transform:translateY(10px)}
 .opt.in{opacity:1;transform:translateY(0);transition:opacity .32s,transform .32s,border-color .2s,background .2s}
@@ -59,48 +51,53 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(120% 6
 .opt.picked .badge{background:var(--accent);border-color:var(--accent);color:#fffdf9}
 .opt-body{font-size:15px;line-height:1.55;color:var(--text-soft);flex:1}
 
-/* ── LOADING ── */
+/* LOADING */
 #pageLoading{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 36px;text-align:center}
 .spinner{width:56px;height:56px;border:3px solid rgba(187,138,94,.18);border-top-color:var(--accent);border-radius:50%;animation:spin .9s linear infinite;margin-bottom:30px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .load-pct{font-size:38px;font-weight:700;color:var(--accent-deep);letter-spacing:1px;margin-bottom:14px;font-variant-numeric:tabular-nums}
 .load-text{font-size:14px;color:var(--muted);line-height:1.9;min-height:26px;transition:opacity .3s}
 
-/* ── RESULT ── */
+/* RESULT */
 #pageResult{display:none;flex-direction:column;min-height:100vh;opacity:0;transition:opacity .5s}
 #pageResult.vis{opacity:1}
-.res-top{padding:62px 28px 30px;text-align:center}
-.res-pill{display:inline-block;font-size:11px;letter-spacing:3px;color:var(--accent-deep);background:var(--accent-soft);border-radius:100px;padding:6px 18px;margin-bottom:26px}
-.res-type{font-size:32px;font-weight:700;color:var(--text);margin-bottom:14px;letter-spacing:.5px}
-.res-tagline{font-size:15px;color:var(--text-soft);line-height:1.95;max-width:300px;margin:0 auto}
-.kw-row{padding:24px 24px 6px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.res-top{padding:60px 28px 18px;text-align:center}
+.res-pill{display:inline-block;font-size:11px;letter-spacing:3px;color:var(--accent-deep);background:var(--accent-soft);border-radius:100px;padding:6px 18px;margin-bottom:24px}
+.res-type{font-size:31px;font-weight:700;color:var(--text);margin-bottom:14px;letter-spacing:.5px}
+.res-tagline{font-size:15px;color:var(--text-soft);line-height:1.95;max-width:310px;margin:0 auto}
+.kw-row{padding:18px 24px 4px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .kw{background:var(--accent-soft);border:1px solid var(--border);border-radius:100px;padding:5px 14px;font-size:13px;color:var(--accent-deep)}
-/* distribution */
-.dist{margin:22px 20px 8px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px}
+.radar-wrap{display:flex;justify-content:center;padding:18px 20px 2px}
+.axis-sum{margin:10px 20px 4px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px 12px;display:flex}
+.axis-item{flex:1;text-align:center;padding:0 6px}
+.axis-item+.axis-item{border-left:1px solid var(--border)}
+.axis-lab{font-size:12px;color:var(--muted);margin-bottom:7px;letter-spacing:.5px}
+.axis-val{font-size:28px;font-weight:700;color:var(--accent-deep);font-variant-numeric:tabular-nums;line-height:1}
+.axis-tag{font-size:11px;color:var(--muted);margin-top:6px}
+.dist{margin:14px 20px 8px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px}
 .dist-title{font-size:12px;color:var(--accent-deep);letter-spacing:1.5px;margin-bottom:16px}
-.dist-row{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.dist-row{display:flex;align-items:center;gap:10px;margin-bottom:13px}
 .dist-row:last-child{margin-bottom:0}
-.dist-lab{font-size:12px;color:var(--muted);width:84px;flex-shrink:0}
+.dist-lab{font-size:12px;color:var(--muted);width:74px;flex-shrink:0}
 .dist-bar{flex:1;height:8px;background:rgba(71,61,49,.06);border-radius:100px;overflow:hidden}
-.dist-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent-deep),var(--accent));border-radius:100px;width:0;transition:width .8s cubic-bezier(.4,0,.2,1)}
-.dist-row.win .dist-lab{color:var(--accent-deep);font-weight:700}
-.dist-num{font-size:12px;color:var(--muted);width:22px;text-align:right;flex-shrink:0}
-.divider{width:38px;height:1px;background:var(--accent);margin:30px auto 6px;opacity:.4}
-.sections{padding:18px 20px 16px;display:flex;flex-direction:column;gap:13px}
+.dist-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent-deep),var(--accent));border-radius:100px;width:0;transition:width .85s cubic-bezier(.4,0,.2,1)}
+.dist-row.low .dist-lab{color:var(--accent-deep);font-weight:700}
+.dist-num{font-size:12px;color:var(--muted);width:26px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums}
+.dist-note{font-size:11px;color:var(--muted);margin-top:14px;line-height:1.7;opacity:.85}
+.divider{width:38px;height:1px;background:var(--accent);margin:28px auto 6px;opacity:.4}
+.sections{padding:16px 20px 16px;display:flex;flex-direction:column;gap:13px}
 .sec{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px 20px;box-shadow:0 2px 12px rgba(71,61,49,.03)}
 .sec-title{font-size:13px;color:var(--accent-deep);letter-spacing:1px;margin-bottom:13px;font-weight:600;display:flex;align-items:center;gap:8px}
 .sec-title::before{content:'';width:14px;height:2px;background:var(--accent);border-radius:2px}
 .sec-text{font-size:15px;line-height:2;color:var(--text-soft);white-space:pre-wrap}
-.btn-again{display:block;margin:14px 20px 0;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:100px;padding:15px;font-size:14px;cursor:pointer;text-align:center;letter-spacing:.5px;width:calc(100% - 40px);transition:border-color .2s,color .2s}
+.btn-again{display:block;margin:14px 20px 0;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:100px;padding:15px;font-size:14px;cursor:pointer;text-align:center;letter-spacing:.5px;width:calc(100% - 40px)}
 .btn-again:active{border-color:var(--accent);color:var(--accent-deep)}
-.foot{text-align:center;font-size:11px;color:var(--muted);opacity:.6;padding:24px 20px;line-height:1.8}
+.foot{text-align:center;font-size:11px;color:var(--muted);opacity:.6;padding:24px 22px;line-height:1.8}
 .spacer{height:30px}
 </style>
 </head>
 <body>
 <div id="app">
-
-  <!-- COVER -->
   <div id="pageCover">
     <div class="emblem"><span></span><span></span><span></span><i></i></div>
     <div class="cover-cat" id="coverCat"></div>
@@ -111,461 +108,299 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(120% 6
     <p class="cover-hint" id="coverHint"></p>
   </div>
 
-  <!-- QUESTION -->
   <div id="pageQuestion">
     <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
     <div class="q-head">
-      <div class="q-meta">
-        <span class="q-mod" id="qMod"></span>
-        <span class="q-num" id="qNum"></span>
-      </div>
+      <div class="q-meta"><span class="q-mod" id="qMod"></span><span class="q-num" id="qNum"></span></div>
       <div class="q-text" id="qText"></div>
     </div>
     <div class="opts" id="opts"></div>
   </div>
 
-  <!-- LOADING -->
   <div id="pageLoading">
     <div class="spinner"></div>
     <div class="load-pct" id="loadPct">0%</div>
     <div class="load-text" id="loadText"></div>
   </div>
 
-  <!-- RESULT -->
   <div id="pageResult">
     <div class="res-top">
-      <div class="res-pill">你的人生状态报告</div>
+      <div class="res-pill">你的职业状态诊断报告</div>
       <div class="res-type" id="resType"></div>
       <div class="res-tagline" id="resTagline"></div>
     </div>
     <div class="kw-row" id="kwRow"></div>
+    <div class="radar-wrap" id="radarWrap"></div>
+    <div class="axis-sum" id="axisSum"></div>
     <div class="dist">
-      <div class="dist-title">你的选择分布</div>
+      <div class="dist-title">四个维度得分（分越高越健康）</div>
       <div id="distRows"></div>
+      <div class="dist-note" id="distNote"></div>
     </div>
     <div class="divider"></div>
     <div class="sections" id="sections"></div>
     <button class="btn-again" onclick="restart()">↺ 重新测试</button>
-    <div class="foot">本测试基于心理状态量表设计，结果仅供自我觉察参考，不构成医学或心理诊断。</div>
+    <div class="foot">本测试参考马氏倦怠量表(MBI)、工作-人匹配模型与自我决定理论设计，用于自我觉察参考，不构成医学或心理诊断。若你长期情绪低落、影响睡眠与生活，请寻求专业心理帮助。</div>
     <div class="spacer"></div>
   </div>
-
 </div>
 <script>
-// ================================================================
-//  ★ 配置区 — 只需替换这里，无需改下方任何代码 ★
-//  计分规则：统计 A/B/C/D 各被选了多少次，最多的字母 → 对应结果
-//  （所以每题的 A 都对应 results[0]，B→results[1]，依此类推）
-// ================================================================
+// ====================================================================
+//  配置区
+//  4个维度，每维8题；每题4个选项，按健康→不健康排序：A=3分 B=2分 C=1分 D=0分
+//  维度0/1=工作轴，维度2/3=自我轴；按两轴高低诊断"换工作/换活法/重建/优化"
+// ====================================================================
+const DIMS = ["工作耗竭","价值匹配","心理能量","生活根基"];
 const CONFIG = {
   meta: {
-    category: "深度人生状态测评",
-    title: "你只是累了，\n还是迷路了？",
-    subtitle: "32道题，照见你当下最真实的人生状态",
-    modules: ["工作系统", "成长系统", "能量系统", "生活系统"],
+    category: "职业状态深度诊断",
+    title: "你该换工作，\n还是换活法？",
+    subtitle: "32道题 · 4大维度，看清你累的到底是工作，还是你自己",
+    modules: ["工作耗竭","价值匹配","心理能量","生活根基"],
     hint: "约5分钟 · 32题 · 结果仅供自我觉察",
-    loadingTexts: ["正在分析你的 32 个选择…", "正在比对四大人生系统…", "正在生成你的专属报告…"]
+    loadingTexts: ["正在汇总你的 32 个选择…","正在比对工作轴与自我轴…","正在定位你的真实病根…","正在生成你的专属报告…"]
   },
-
-  // 4个模块，每模块8题；每题4个选项，顺序固定 A→倦怠 B→消耗 C→停滞 D→迷失
   modules: [
-    { name: "工作系统", questions: [
-      { text: "周一早上想到要上班，你心里最先冒出来的是？", opts: [
-        "又要开始了，光是想想就没力气",
-        "说不上抗拒，但有种被掏空的疲惫",
-        "反正每天都一样，去不去都没差别",
-        "我到底为什么在做这份工作" ] },
-      { text: "工作中最让你疲惫的瞬间是？", opts: [
-        "明明很累，还要装作很有干劲",
-        "处理那些看不见、说不清的内耗",
-        "重复着早就会的事，学不到新东西",
-        "忙了一整天，却不知道意义在哪" ] },
-      { text: "如果现在有人问「你喜欢你的工作吗」？", opts: [
-        "喜不喜欢不重要，我已经累到没感觉",
-        "不讨厌，但它在悄悄耗尽我",
-        "谈不上喜欢，就是停在这里出不去",
-        "我连自己想要什么都不知道" ] },
-      { text: "下班之后，你对工作的状态是？", opts: [
-        "一秒都不想再想，只想瘫着",
-        "人下班了，脑子还在隐隐发紧",
-        "想提升自己，却总是没动静",
-        "不知道这样下去会通向哪里" ] },
-      { text: "看到同事升职或跳槽成功，你的第一反应？", opts: [
-        "羡慕都懒得羡慕了，太累了",
-        "心里咯噔一下，又说不出哪里不是滋味",
-        "同样的起点，我怎么还在原地",
-        "他们至少知道要去哪，我不知道" ] },
-      { text: "你现在对待工作的方式，更像？", opts: [
-        "硬撑着完成，能少做就少做",
-        "表面正常，内里一点点漏气",
-        "守着熟悉的活，不敢也不想突破",
-        "走一步看一步，没有方向" ] },
-      { text: "一想到「未来五年还做这个」，你？", opts: [
-        "光想到就觉得熬不下去",
-        "一种说不清的窒息感慢慢压上来",
-        "怕五年后我还是现在这个样子",
-        "五年？我连下个月都看不清" ] },
-      { text: "你最近一次为工作真正有成就感，是？", opts: [
-        "记不清了，现在只剩疲惫",
-        "有过，但很快就被消耗掉了",
-        "太久没有了，好像卡住了",
-        "就算完成了，也不知道为了什么" ] }
+    { name:"工作耗竭", questions:[
+      { text:"现在的工作，对你情绪和精力的消耗是？", opts:[
+        "基本不影响，下班能恢复过来","偶尔会累，但休息一下能缓过来","经常感到疲惫，休息也不太够用","长期被掏空，怎么休息都缓不过来"]},
+      { text:"周一早上想到要上班，你的心情通常是？", opts:[
+        "还算平静，没什么特别抗拒","有点不情愿，但很快能调整","比较沉重，要靠意志力推自己","极度抗拒，只想逃避不去面对"]},
+      { text:"工作中遇到压力或难题时，你现在的反应是？", opts:[
+        "还能积极应对，想办法解决","会有些烦躁，但还撑得住","常感力不从心，只想躲开","麻木了，已经懒得有任何反应"]},
+      { text:"对待手头的工作，你的投入状态是？", opts:[
+        "该认真时还能认真投入","表面正常，内心偶尔懈怠","越来越难投入，能少做就少做","完全应付，做多做少都无所谓"]},
+      { text:"下班之后，你还会被工作的事缠住吗？", opts:[
+        "基本不会，能切换到生活状态","偶尔会想，但不太影响心情","经常放不下，脑子还在紧绷","一直被工作焦虑笼罩，停不下来"]},
+      { text:"对同事、客户或工作关系的感受是？", opts:[
+        "整体还融洽，有正常往来","一般，谈不上好也谈不上累","有些应付不来，维持关系很耗","很抵触，一想到打交道就烦"]},
+      { text:"最近，你对工作的热情和心气儿是？", opts:[
+        "还保留着一些，偶有干劲","平淡，但没有特别消极","明显在往下掉，提不起劲","已经熄灭了，只剩疲惫和冷漠"]},
+      { text:"用一个状态形容你和工作的关系，更接近？", opts:[
+        "还在好好配合，节奏稳定","有点累，但还在正常运转","在硬撑，靠惯性往前推","濒临停摆，随时想撂挑子"]}
     ]},
-    { name: "成长系统", questions: [
-      { text: "提到「自我成长」，你现在的感觉是？", opts: [
-        "累到没精力管成长这件事",
-        "想成长，但能量总是不够用",
-        "努力了很久，还是没什么变化",
-        "不知道该往哪个方向成长" ] },
-      { text: "你买过的课、立过的 flag，现在？", opts: [
-        "没动力打开，躺着比什么都香",
-        "开了头，被各种事消耗到放弃",
-        "学了不少，却没真正用起来",
-        "当初为什么买，我已经忘了" ] },
-      { text: "回望过去一年，你觉得自己？", opts: [
-        "累了一整年，没剩下什么",
-        "一直在付出，却被悄悄耗空",
-        "和去年比，几乎没有长进",
-        "走了一年，却不知道走到了哪" ] },
-      { text: "面对一个需要走出舒适区的机会，你？", opts: [
-        "太累了，不想再给自己加负担",
-        "心动，但一想到要耗费精力就退缩",
-        "知道该上，却总迈不出那一步",
-        "不确定这是不是我真正想要的" ] },
-      { text: "「明明在努力，却看不到结果」这种感觉，你？", opts: [
-        "有，努力到最后只剩疲惫",
-        "有，付出都被无形地消耗掉了",
-        "有，使了劲却一直原地踏步",
-        "有，甚至怀疑这努力有没有意义" ] },
-      { text: "别人问你「最近在忙什么提升自己」，你？", opts: [
-        "提升？能不垮就不错了",
-        "忙是忙，但都忙在内耗上",
-        "好像在忙，又好像没进展",
-        "我都不知道该提升什么" ] },
-      { text: "对自己当下的能力状态，最真实的判断是？", opts: [
-        "不是不行，是被耗到使不出来",
-        "有能力，但一直在被悄悄掏空",
-        "卡在一个瓶颈，上不去",
-        "不知道自己的优势到底是什么" ] },
-      { text: "给「现在的成长状态」打个比方，更像？", opts: [
-        "一台快没电、硬撑着运转的机器",
-        "一个底部有裂缝、慢慢漏水的杯子",
-        "一辆挂着空挡、轰油门却不走的车",
-        "一艘没有航向、随波漂着的船" ] }
+    { name:"价值匹配", questions:[
+      { text:"你的能力和当前工作的匹配程度？", opts:[
+        "很匹配，能发挥我的所长","基本匹配，部分地方需提升","不太匹配，常感力不从心","完全不匹配，做着不擅长的事"]},
+      { text:"这份工作能给你带来成就感吗？", opts:[
+        "有，完成某些事会让我满足","偶尔有，但不算多","很少了，越来越难有","几乎没有，做完也没感觉"]},
+      { text:"现在做的事，和你看重的价值观一致吗？", opts:[
+        "比较一致，做着觉得有意义","大体还行，偶尔有点拧巴","不太一致，常觉得在违背自己","完全相悖，每天做不认同的事"]},
+      { text:"在工作里，你有掌控感吗（能决定怎么做事）？", opts:[
+        "有一定自主空间，能按自己方式来","部分能，部分要听安排","大多身不由己，被推着走","完全没有，像个被安排的工具"]},
+      { text:"你的付出和回报（钱、认可、成长）匹配吗？", opts:[
+        "基本匹配，对得起我的付出","还行，偶尔觉得不太够","不太匹配，付出常被辜负","严重失衡，越干越觉得不值"]},
+      { text:"想到这份工作的未来发展，你？", opts:[
+        "有盼头，能看到成长空间","一般，说不上好也说不上差","比较灰心，感觉看不到头","绝望，留下只会越来越糟"]},
+      { text:"你上一次因为工作真正感到骄傲，是？", opts:[
+        "最近就有，几件事做得不错","有过，但要回想一下","已经是挺久之前的事了","真的想不起来了"]},
+      { text:"总的来说，这份工作「适不适合你」？", opts:[
+        "比较适合，待着还算舒展","凑合适合，没到难受的地步","不太适合，常觉得被困住","完全不适合，每天都在勉强自己"]}
     ]},
-    { name: "能量系统", questions: [
-      { text: "早上睁开眼的那一刻，你通常？", opts: [
-        "还没起，就已经觉得累",
-        "睡了一觉，却没补回多少",
-        "又是重复的一天，提不起劲",
-        "不太清楚今天为什么要起来" ] },
-      { text: "你最近的「累」，更像哪一种？", opts: [
-        "身体被榨干的那种累",
-        "说不出哪里累，但就是缓不过来",
-        "一种困在原地的、乏味的累",
-        "一种找不到意义的、空荡的累" ] },
-      { text: "周末或假期结束时，你？", opts: [
-        "没休够，又要去硬扛了",
-        "休息了，却没真正放松下来",
-        "假期和平时没区别，照样空转",
-        "不知道休息是为了更好地去哪" ] },
-      { text: "一天结束、瘫下来的时候，你在想？", opts: [
-        "终于熬过去了，太累了",
-        "没做什么大事，怎么这么累",
-        "这一天好像白过了",
-        "这样的日子，到底是为了什么" ] },
-      { text: "让你感到能量被偷走的，往往是？", opts: [
-        "没完没了、必须硬扛的任务",
-        "那些说不清的情绪和人际内耗",
-        "日复一日、毫无新意的重复",
-        "看不到尽头、找不到意义的迷茫" ] },
-      { text: "你有多久没有发自内心地觉得「满血」了？", opts: [
-        "很久了，一直在透支",
-        "想不起来，能量一直在漏",
-        "太久了，整个人像卡住了",
-        "我甚至忘了那种感觉是什么样" ] },
-      { text: "想做的事很多，但真要行动起来，你？", opts: [
-        "累到根本提不起劲开始",
-        "一动，就被各种琐事耗散",
-        "想了又想，却始终原地不动",
-        "不确定哪件才是真正值得做的" ] },
-      { text: "如果能量是手机电量，你现在大概？", opts: [
-        "红色低电量，靠意志硬撑",
-        "边充边掉，怎么也充不满",
-        "卡在一个数字，怎么都不动",
-        "不知道电用在了哪，就是空了" ] }
+    { name:"心理能量", questions:[
+      { text:"抛开工作不谈，你最近整体的精力和兴致？", opts:[
+        "比较充沛，对生活还有兴致","一般，但还能正常运转","偏低，做什么都提不起劲","很差，长期感觉空荡荡的"]},
+      { text:"早上醒来的那一刻，你通常？", opts:[
+        "还算清醒，可以开始新的一天","要缓一会儿才能进入状态","醒来就觉得累，不想动","一睁眼就发怵，不想面对这天"]},
+      { text:"你的睡眠和恢复效果如何？", opts:[
+        "还好，睡了基本能恢复","偶尔睡不好，但大体可以","质量下降了，常常缓不过来","很差，睡了跟没睡一样"]},
+      { text:"你最近的情绪状态？", opts:[
+        "基本稳定，偶尔有起伏","有点低落，但还在可控范围","经常内耗，比较难自我调节","长期低迷，有时连原因都说不清"]},
+      { text:"还有什么事能让你感到充实或开心吗？", opts:[
+        "有，做某些事还是会觉得值","有一些，但比以前少了","很少了，越来越难找到","几乎没有，做什么都觉得在耗"]},
+      { text:"面对想做的事，你能行动起来吗？", opts:[
+        "基本能，想做就去做了","有时拖延，但最终能动","经常心有余而力不足","完全动不了，连开始都没力气"]},
+      { text:"你上一次感觉「满血、有劲儿」是什么时候？", opts:[
+        "最近就有","不久之前，想一下能记起","已经挺久了","久到想不起那种感觉了"]},
+      { text:"如果用手机电量形容现在的你？", opts:[
+        "60%以上，还能正常运转","30%~50%，有点低但撑得住","不到20%，靠意志硬撑","红灯了，随时可能关机"]}
     ]},
-    { name: "生活系统", questions: [
-      { text: "除了工作，你的生活现在是？", opts: [
-        "累到没有生活，只剩瘫着",
-        "看着正常，里面一点点被掏空",
-        "一成不变，像复制粘贴的每一天",
-        "不知道自己到底想过什么样的生活" ] },
-      { text: "面对身边的人和关系，你常觉得？", opts: [
-        "累到没力气经营任何关系",
-        "维系关系本身就在消耗我",
-        "关系停在那，没有也不会更近",
-        "不确定谁才是真正重要的人" ] },
-      { text: "夜深人静、一个人的时候，你？", opts: [
-        "累到只想放空，什么都不想",
-        "莫名的空，说不清在难受什么",
-        "觉得日子卡住了，动不了",
-        "会忽然不知道自己在为什么活" ] },
-      { text: "对于「我想要的生活」，你？", opts: [
-        "太累了，连想都不敢想",
-        "想过，但被现实一点点磨没了",
-        "有过，但一直停留在想象里",
-        "说实话，我并不清楚那是什么" ] },
-      { text: "你现在和「喜欢的自己」之间？", opts: [
-        "被累成了自己最不喜欢的样子",
-        "在不知不觉中离她越来越远",
-        "卡在某个地方，变不成她",
-        "我甚至不知道她长什么样" ] },
-      { text: "用一个词形容当下的生活，你会选？", opts: [
-        "硬撑",
-        "漏气",
-        "卡住",
-        "飘着" ] },
-      { text: "「日子在过，但人不在场」的感觉，你有吗？", opts: [
-        "有，累到像行尸走肉",
-        "有，整个人是空的",
-        "有，每天都在重复同一天",
-        "有，不知道自己被带去了哪" ] },
-      { text: "如果明天可以重新选择，你最想改变的是？", opts: [
-        "先让自己好好喘口气",
-        "堵住那些一直在漏的消耗",
-        "打破现在这个出不去的局",
-        "先搞清楚我到底想要什么" ] }
+    { name:"生活根基", questions:[
+      { text:"除了工作，你的生活（关系、爱好、自我时间）是？", opts:[
+        "比较充实，有支撑我的人和事","还过得去，但不够丰富","比较单薄，几乎被工作占满","几乎空白，工作之外什么都没有"]},
+      { text:"你有可以说心里话、给你支持的人吗？", opts:[
+        "有，关系让我感到被支撑","有一两个，但联系不算多","很少，大多事只能自己扛","几乎没有，感觉很孤独"]},
+      { text:"你每天有「属于自己」的时间吗？", opts:[
+        "有，能留点空间给自己","有一些，但常常不够","很少，几乎全被占满","完全没有，连喘口气都难"]},
+      { text:"你对现在的生活状态，满意吗？", opts:[
+        "基本满意，虽有想改善的地方","不太满意，但还在努力调整","不满意，又不知道怎么改","很不满意，且越来越觉得无力"]},
+      { text:"你照顾自己的生活节律吗（吃饭、运动、休息）？", opts:[
+        "基本规律，照顾得还可以","有些失调，但没大问题","明显变差，很多习惯丢了","很乱，整个人状态都在下滑"]},
+      { text:"想到未来的生活，你的感觉是？", opts:[
+        "有期待，相信会越来越好","有点迷茫，但还有信心","比较担心，感觉前路不明","很沉重，甚至有点害怕去想"]},
+      { text:"你和「自己喜欢的那个自己」之间？", opts:[
+        "还比较接近，活得像我自己","有点距离，但还认得出","离得有点远，常觉得不像我了","几乎陌生，不知道自己成了谁"]},
+      { text:"用一句话形容你工作之外的生活？", opts:[
+        "有滋味，能喘得过气","平淡，但还稳得住","被掏空，只剩疲惫","一片空白，像没在生活"]}
     ]}
   ],
-
-  // 结果：results[0]=A最多, [1]=B最多, [2]=C最多, [3]=D最多
+  // results[0]平稳 [1]换工作 [2]换活法 [3]双重耗竭
   results: [
-    {
-      type: "职场倦怠型",
-      tagline: "你不是变懒了，是被耗到连感觉都没有了",
-      keywords: ["硬撑", "透支", "情绪麻木"],
-      sections: [
-        { title: "人生状态总览", text:
-"你正处在一种「硬撑式生存」的状态。表面上你还在正常运转——按时上班、完成任务、回应别人，但你心里很清楚，这一切都是靠意志硬扛下来的。\n你的电量长期亮着红灯，却从来没机会真正充满。倦怠不是某一天突然发生的，它是无数个「再坚持一下」累积出来的结果。你以为自己只是累了，其实你是在用透支的方式，维持一个「看起来还好」的人生。" },
-        { title: "深度分析", text:
-"职场倦怠最隐蔽的地方在于：它不会让你崩溃，只会让你麻木。你慢慢失去了对事情的热情，失去了被触动的能力，连情绪都变得很淡——不是因为你冷漠，而是因为你的系统在自我保护，主动关掉了那些会消耗你的感受。\n你开始用「完成」代替「投入」，用「撑过去」代替「活过来」。这是一种聪明的生存策略，但代价是：你正在和真实的自己，一点点失去联系。" },
-        { title: "真实消耗来源", text:
-"你以为消耗你的是工作量，其实更深的消耗，来自「情绪劳动」——你要一边疲惫，一边假装有干劲；一边想停下，一边不敢停下。\n真正榨干你的，不是事情本身，而是「我不能垮」的那根弦。你把所有力气都用在维持表面，于是没有一丝力气留给自己。长期处在「不被允许休息」的内在压力里，比任何具体任务都更伤人。" },
-        { title: "你真正需要的", text:
-"你需要的不是「再加把劲」，而是一次真正的、不带愧疚的停下来。你需要允许自己承认「我累了」，而不是把它当成软弱。\n你需要重新找回「感受」的能力——先从允许自己休息开始，而不是先去解决问题。在你重新有力气之前，任何关于「要不要换工作」的决定都不该现在做，因为疲惫会替你做出错误的判断。" },
-        { title: "未来30天行动建议", text:
-"第1周｜每天留 30 分钟「什么都不做」的时间，不刷手机、不学习、不内疚，只是停下来。\n第2周｜列出工作里最消耗你的 3 件事，挑 1 件最小的，试着说「不」或往后放一放。\n第3周｜每天记录 1 个「今天还算可以的瞬间」，重新训练自己感受微小的好。\n第4周｜找一个信任的人，把「我最近很累」真实地说出口——倦怠最怕的就是一直憋着。\n这 30 天，请先不要做任何重大决定。先把电充起来，再谈方向。" }
-      ]
-    },
-    {
-      type: "隐性消耗型",
-      tagline: "你说不清哪里累，但你确实一直在漏",
-      keywords: ["漏气", "内耗", "看不见的累"],
-      sections: [
-        { title: "人生状态总览", text:
-"你的状态，像一个底部有细微裂缝的杯子——你一直在往里加水，水位却始终上不去。你不是那种轰轰烈烈崩溃的人，相反，你看起来一切正常，甚至还挺好。\n但只有你自己知道，有什么东西在悄悄地、持续地流失。你常常感到累，却说不清累在哪里；睡了觉、休了假，却始终没缓过来。这种「看不见的消耗」，才是最磨人的，因为它连让你正当休息的理由都不给你。" },
-        { title: "深度分析", text:
-"隐性消耗的核心，是你的能量被大量花在了「看不见的地方」——过度的思虑、对他人情绪的照顾、对冲突的回避、对「我是不是哪里做得不够好」的反复确认。\n这些消耗没有产出、不被看见，连你自己都意识不到。你把很多力气用在维持关系的平衡、压抑自己的需要、消化别人的情绪上。表面风平浪静，内里一直在做功。久而久之你被掏空，却找不到一个具体的「罪魁祸首」。" },
-        { title: "真实消耗来源", text:
-"真正在漏你能量的，往往是那些你「不好意思拒绝」「不想让别人失望」「怕麻烦别人」的瞬间。你太习惯把自己的需要排在最后，把别人的感受放在最前。\n你以为这是体贴、是懂事，其实这是一种持续的自我消耗。你的裂缝不在外面，而在于你和自己的关系——你一直在亏待那个最该被你照顾的人：你自己。" },
-        { title: "你真正需要的", text:
-"你需要的不是更多的休息，而是先堵住那条裂缝。你需要学会识别「这件事在消耗我吗」，并且允许自己为此设立边界。\n你需要练习把自己的需要说出口，哪怕一开始会觉得愧疚、别扭。真正的恢复，不是加更多的水，而是先让水不再漏掉。当你开始把一部分原本给别人的能量留给自己，你会惊讶——原来自己没那么「虚」。" },
-        { title: "未来30天行动建议", text:
-"第1周｜每天睡前问自己一句「今天哪件事最消耗我？」，把它写下来，先看见它。\n第2周｜选一个一直让你内耗的小请求，试着拒绝一次，体验「拒绝之后，世界没塌」。\n第3周｜每天为自己做一件「纯粹只为自己」的小事，哪怕只是安静喝杯茶。\n第4周｜梳理身边持续消耗你的 1-2 段关系或习惯，给它们设一条小小的边界。\n请记住：堵住漏的，比加更多的，重要得多。" }
-      ]
-    },
-    {
-      type: "成长停滞型",
-      tagline: "你不是没在努力，是被困在了原地",
-      keywords: ["卡住", "原地踏步", "空转"],
-      sections: [
-        { title: "人生状态总览", text:
-"你正卡在一个「使了劲却走不动」的位置。你没有放弃，你甚至一直在努力——学习、尝试、要求自己进步，但结果却总是停在那里，和去年、前年没什么两样。\n这种停滞，比退步更折磨人，因为它让你怀疑：是不是我努力的方式错了？是不是我本来就只能到这里？你像一辆挂着空挡的车，引擎轰鸣，却始终没有往前。" },
-        { title: "深度分析", text:
-"成长停滞的真相，常常不是「不够努力」，而是「在用旧的方式重复」。你可能一直在做那些让你有「我在进步」错觉的事——收藏、报课、立 flag——但这些「输入」没有变成真正的「改变」。\n停滞还有一个更深的原因：你被困在了舒适区的边缘，看得见外面，却迈不出去，因为那一步意味着风险、意味着可能失败。于是你停在了「安全但不甘心」的地方，用忙碌掩盖着不动。" },
-        { title: "真实消耗来源", text:
-"真正消耗你的，是「原地踏步」带来的自我怀疑。每一次看到别人往前走，每一次发现自己还在同一个地方，都会悄悄削掉你一点信心。你的力气没有用在突破上，而是用在和这种挫败感的对抗上。\n更深一层，你害怕的或许不是「做不到」，而是「万一全力以赴了，还是不行」——所以你下意识地留了余力，好让自己有「我只是没尽全力」的退路。" },
-        { title: "你真正需要的", text:
-"你需要的不是更多的努力，而是一次真正的「突破点」——一件具体的、有一点难度、会让你紧张但够得着的事。你需要把「输入」变成「输出」，把「我学过」变成「我做过」。\n你需要允许自己失败一次，因为只有越过那条你一直绕开的线，停滞才会被打破。比起在原地把油门踩得更狠，你更需要的是换挡，往前走一小步。" },
-        { title: "未来30天行动建议", text:
-"第1周｜找出一件你「一直想做却拖着没做」的事，把它拆成最小的第一步。\n第2周｜完成那个最小的第一步——重点不是做好，而是真正「动起来」。\n第3周｜把最近学到的某样东西，实际用出来一次（做出来、写出来、或说出来）。\n第4周｜主动做一件让你略微紧张的事，体验「原来我可以越过这条线」。\n打破停滞的，从来不是更用力，而是换一个方向迈出去。" }
-      ]
-    },
-    {
-      type: "人生迷失型",
-      tagline: "你不是走错了路，是还没找到自己的方向",
-      keywords: ["飘着", "无方向", "找不到意义"],
-      sections: [
-        { title: "人生状态总览", text:
-"你正处在一种「在走，却不知道走向哪里」的状态。日子一天天过，事情一件件做，但你心里始终有个声音在问：这一切，到底是为了什么？\n你不一定过得很差，甚至在别人看来还不错，但你自己清楚，你和「意义」之间断了线。你像一艘没有航向的船，不是没有在动，而是不知道该往哪儿动。这种迷失，比辛苦更让人不安，因为它动摇的是根基。" },
-        { title: "深度分析", text:
-"人生迷失，往往不是因为你失去了能力，而是因为你失去了「为什么」。你可能一直在按照别人的期待、社会的时钟、惯性的轨道往前走，却从没真正停下来问过自己：我想要的是什么？\n当一个人长期活在「应该」里，而不是「想要」里，意义感就会慢慢枯竭。你不是不努力，你是不知道为谁、为何而努力。最深的疲惫，从来不是身体的，而是「找不到意义」的那种空。" },
-        { title: "真实消耗来源", text:
-"真正消耗你的，是「无方向感」本身。当你不知道要去哪里，每一步都会变得格外沉重，因为你无法判断它是不是在靠近什么。你把大量能量花在了「反复怀疑」上——怀疑选择、怀疑意义、怀疑自己。\n更深处，你或许从来没有被允许、也没有允许自己去认真探索「我到底想要什么」，于是你一直在用别人的答案，过自己的人生。" },
-        { title: "你真正需要的", text:
-"你需要的不是一个更努力的计划，而是一次和自己的重新对话。你需要允许自己暂时「没有答案」，并把寻找答案本身，当成一件正经事来做。\n你需要从「应该怎样」里走出来，重新去触碰「我想要怎样」。方向不是想出来的，是试出来的——你需要通过小小的尝试，去感受什么让你眼睛发亮、什么让你觉得「这才像我」。找回意义，要从找回「自己的声音」开始。" },
-        { title: "未来30天行动建议", text:
-"第1周｜每天写下一件「今天让我有一点点感觉（开心 / 触动 / 在意）」的小事，收集线索。\n第2周｜回想人生中你曾真正投入、忘记时间的时刻，写下来——那里藏着你的方向。\n第3周｜选一件你「一直好奇却没试过」的小事，去试一次，不为结果，只为感受。\n第4周｜给三年后的自己写一封信，写下你「不希望那时还在原地」的样子。\n方向不会从天而降，它藏在你愿意去尝试和感受的每一个小选择里。" }
-      ]
-    }
+    { type:"状态平稳型",
+      tagline:"你整体还在轨道上，眼下更像是\"要不要往前再走一步\"的选择",
+      keywords:["基本稳定","有余力","待突破"],
+      sections:[
+        {title:"你的状态总览", text:"从四个维度的得分看，你现在的状态比大多数人都稳。工作没把你榨干，你和它的关系还算合得来；更关键的是，工作之外，你的心理能量和生活根基都还在。\n你不是在硬撑，也不是在逃。这意味着，你现在面对的不是\"危机\"，而是一道选择题：是守着这份还不错的稳定，还是主动往前，去够那个更想要的东西。"},
+        {title:"核心结论：你既不用换工作，也不用换活法", text:"你需要的，是\"换一个更高的目标\"。\n你的根基足够好，足以支撑你去冒一点险、试一点新。真正的风险不是行动，而是因为\"现在还行\"，把想做的事一直往后拖——几年后回头，发现自己还停在原地。"},
+        {title:"深度分析", text:"稳定型的人最容易陷入的，不是痛苦，而是一种温水般的\"还行\"。你过得不差，所以改变的动力总是不够紧迫；可你心里又清楚，自己其实可以要更多。\n这种\"我本可以\"的声音，平时被日常盖住，夜深时却会冒出来。它不是矫情，是你的潜力在提醒你：别浪费。"},
+        {title:"你的能量正在流向哪里", text:"你的能量没有在大量漏掉，这是你最大的本钱。但要留意一种隐性消耗——\"维持现状\"本身也要花力气。\n当一个人长期待在舒适区边缘，会下意识用忙碌填满自己，好让自己看起来很努力，从而回避\"我到底想要什么\"这个更难的问题。"},
+        {title:"你内心真正渴望的", text:"你渴望的不是更安稳，而是\"投入感\"和\"成长感\"——那种全身心扑在一件事上、并看着自己变强的感觉。\n心理学上，这对应着\"胜任\"与\"自我实现\"的需求。你不缺安全感，你缺的是一个值得你发光的目标。"},
+        {title:"未来走势", text:"如果维持现状，你大概率不会变差，但也很难变好，\"还行\"会慢慢磨成\"将就\"。\n如果你愿意主动往前一步——给自己设一个够得着但有挑战的目标——你很可能在半年内进入一个新状态，因为你本来就有支撑改变的底子。"},
+        {title:"未来30天行动地图", text:"第1周｜写下\"如果不怕失败，我最想做的3件事\"，只凭感觉，不管现实\n第2周｜挑其中1件，做一个最小的尝试（一次行动，不求做好）\n第3周｜把你某项擅长的能力，主动用在一件新事情上，体验\"我可以更多\"\n第4周｜给半年后的自己写封信，写下\"我希望那时已经开始做的事\"\n你不需要推翻什么，只需要往前迈半步。"},
+        {title:"一句话寄语", text:"你不是没有方向，你只是还没认真去要。这副好底子，正是用来折腾的。"}
+      ]},
+    { type:"该换工作型",
+      tagline:"问题大概率在工作本身——你自己还完整，是这份工作不对了",
+      keywords:["工作错配","自我尚存","值得一换"],
+      sections:[
+        {title:"你的状态总览", text:"你的得分呈现一个很清晰的图形：工作这一块（耗竭、匹配）明显偏低，但你自己这一块（心理能量、生活根基）还撑得住。\n这是一个重要信号——把你磨得难受的，主要是这份工作，而不是你整个人垮了。你还有力气、还有生活、还认得出自己，只是被放错了地方。"},
+        {title:"核心结论：你该认真考虑换工作", text:"对你来说，\"换工作\"是一个值得认真考虑的方向，而不是逃避。\n因为你的疲惫来自工作和你的不匹配——能力用不上、价值观拧着、付出不被回报，而这种问题，换一个更合适的环境，是真的能解决的。你不是哪里都待不下去的人，你只是这次待错了地方。"},
+        {title:"深度分析", text:"工作-人不匹配，是职业倦怠里最常见也最可逆的一种。它不像内在枯竭那样跟着你走——它是情境性的。\n你在这份工作里的\"不行\"，很多时候不是你不行，而是这个岗位没给你发挥的空间、没给你应得的回报、或要求你做违背价值观的事。长期在错配里待着，再好的人也会被磨出无力感。"},
+        {title:"你的能量正在流向哪里", text:"你的能量主要漏在\"对抗错配\"上——每天用力气去适应一个本就不适合你的环境，去消化\"我的付出不被看见\"的委屈。\n这部分消耗没有产出，纯粹是内耗。好消息是：一旦离开错配的环境，这部分能量会很快回来。"},
+        {title:"你内心真正渴望的", text:"你渴望的是\"被放对位置\"——能发挥所长（胜任感）、能自己说了算一部分（自主感）、付出能被公平回报。\n这些不是过分的要求，是人在工作里最基本的心理需求。你现在的难受，本质是这些需求长期得不到满足。"},
+        {title:"未来走势", text:"如果继续待在错配里，你现在还好的部分（心理能量、生活根基）会被慢慢拖下水，最后变成\"双重耗竭\"——那才是真正难翻身的。\n如果你趁现在自己还完整，去找一个更匹配的方向，恢复会比你想象的快。"},
+        {title:"未来30天行动地图", text:"第1周｜列出这份工作里最消耗你的3件事，看清\"到底是工作的问题还是我的问题\"\n第2周｜写下你理想工作的3个硬条件（发挥所长／价值认同／合理回报）\n第3周｜不辞职的前提下，悄悄了解1-2个更匹配的方向或岗位，收集信息\n第4周｜和1个在你向往领域里的人聊一次，验证你的判断\n关键：先看清、先准备，别冲动裸辞，但也别在错配里硬耗。"},
+        {title:"一句话寄语", text:"你没有问题，是这双鞋不合脚。换鞋不丢人，硬穿才伤脚。"}
+      ]},
+    { type:"该换活法型",
+      tagline:"换工作大概率没用——真正需要调整的，是你的活法",
+      keywords:["内在枯竭","问题随身","重在养己"],
+      sections:[
+        {title:"你的状态总览", text:"你的得分图形和大多数人想的相反：工作这一块其实没那么糟，但你自己这一块（心理能量、生活根基）明显偏低。\n这说明一件关键的事——你的累，主要不是这份工作造成的，而是你整个人的状态枯竭了。这种枯竭会跟着你走，所以哪怕换一份工作，大概率也缓解不了多久。"},
+        {title:"核心结论：与其换工作，不如换活法", text:"因为问题不在外面，在于你和自己的关系：你的能量在持续流失，你的生活被工作挤压到几乎不剩，你离\"喜欢的自己\"越来越远。\n这些，换个公司解决不了。只有重新调整你怎么生活、怎么对待自己，才能真正缓过来。"},
+        {title:"深度分析", text:"内在枯竭的隐蔽之处在于：你会本能地以为\"换个环境就好了\"，于是把希望寄托在跳槽上，结果到了新地方，三个月后又是同样的疲惫。\n因为真正漏能量的，是你长期把自己排在最后、没有自己的时间、没有滋养你的关系和爱好。工作只是压垮你的最后一根稻草，不是稻草堆本身。"},
+        {title:"你的能量正在流向哪里", text:"你的能量漏在\"看不见的地方\"——过度付出、压抑自己的需要、长期没有真正的休息和滋养。\n你的生活只剩下工作这一根独木桥，一旦它晃，你整个人就跟着晃。你需要的不是换桥，是重新搭起生活里其他的支撑点。"},
+        {title:"你内心真正渴望的", text:"你渴望的是\"重新活过来\"——有属于自己的时间（自主）、有滋养你的关系（归属）、有让你觉得\"这才是我\"的事（意义）。\n这些需求被你压了太久，久到你都快忘了它们存在。你不是需要更努力，你是需要被好好对待，哪怕这个人是你自己。"},
+        {title:"未来走势", text:"如果你现在跳去换工作，短期可能新鲜，但大概率三五个月后回到原点，甚至更失望（因为你以为找到了答案，结果发现没用）。\n如果你把力气花在\"重建生活、养回能量\"上，你会发现：很多对工作的厌倦，其实会跟着你状态的回升一起消退。"},
+        {title:"未来30天行动地图", text:"第1周｜每天留30分钟\"只属于自己\"的时间，什么都不做，先把自己找回来\n第2周｜重新捡起一件你以前喜欢、很久没做的事，不管它有没有用\n第3周｜主动联系1个能让你放松、做回自己的人，恢复一段滋养的关系\n第4周｜每天记一件\"今天还算可以的小事\"，重新训练自己感受好的能力\n关键：先别急着换工作，先把自己养回来，很多答案会自己浮现。"},
+        {title:"一句话寄语", text:"有时候想离开的不是公司，是那个被掏空的自己。先回家看看自己，再谈远方。"}
+      ]},
+    { type:"双重耗竭型",
+      tagline:"工作和你自己都被掏空了——现在最该做的，是先停下来，别急着决定",
+      keywords:["双重耗竭","系统重建","先稳住"],
+      sections:[
+        {title:"你的状态总览", text:"说实话，你现在的状态不太轻松。四个维度——工作的消耗、价值的错配、你的心理能量、你的生活根基——几乎都在偏低的位置。\n这意味着不是某一块出了问题，而是整个系统都在亏空。这不是你不努力，也不是你脆弱，而是长期透支、缺乏支撑、又看不到方向，一点点累积下来的结果。"},
+        {title:"核心结论：先别做任何重大决定", text:"对你来说，现在最重要的不是决定\"换工作还是换活法\"，而是先停下来，别在这个状态下做任何重大决定。\n因为当一个人被耗到这个程度，判断力是失真的，疲惫会替你做出错误的选择。你需要的是一段\"先稳住、先回血\"的时间，然后再谈方向。"},
+        {title:"深度分析", text:"双重耗竭，是工作错配和内在枯竭叠加的结果——工作在消耗你，而你又没有生活和能量来缓冲，于是恶性循环：越累越没力气改善生活，生活越空越扛不住工作。\n你现在最大的风险不是\"选错路\"，而是\"在没力气的时候硬逼自己做选择\"，结果越选越糟。"},
+        {title:"你的能量正在流向哪里", text:"你的能量在多个口子同时漏——工作在抽，生活没有进项，情绪还在内耗。你就像一个同时被几处漏水的水池，光靠加水（硬撑）是没用的。\n当务之急不是找新水源（换工作），而是先把人从水里捞出来，让自己喘口气。"},
+        {title:"你内心真正渴望的", text:"在这一切之下，你内心最深的渴望其实很朴素——\"我只想找回那个还不错的自己\"。\n你记得自己曾经有过力气、有过热情、有过对生活的期待。你需要的不是一个更努力的计划，而是先被允许停下来，重新和自己连接。"},
+        {title:"未来走势", text:"如果你现在硬撑着做决定（裸辞、或强迫自己振作），大概率会更糟，因为你没有余力承接任何变化。\n但如果你愿意先给自己一段恢复期——降低标准、减少消耗、找回支撑点——你会慢慢重新有力气，到那时再做的选择，才是清醒的、对的。"},
+        {title:"未来30天行动地图", text:"第1周｜唯一任务：每天留出时间什么都不做，允许自己停下来，不内疚\n第2周｜把要求降到最低，每天只完成一件最重要的事就够了\n第3周｜找一个信任的人，把\"我最近真的很累、撑不住\"诚实说出口\n第4周｜如果持续情绪低落、影响睡眠和生活，请认真考虑寻求专业心理帮助\n关键：这个阶段，活下来、缓过来，比任何决定都重要。"},
+        {title:"一句话寄语", text:"你不是走错了路，你只是走太久没歇了。先停下来喘口气，地图可以等你有力气了再看。"}
+      ]}
   ]
 };
-// ================================================================
-//  逻辑代码（替换配置无需修改以下内容）
-// ================================================================
+// ====================================================================
+//  逻辑代码
+// ====================================================================
 const LABELS = ['A','B','C','D'];
-
-// 扁平化题库（保留模块名）
 const FLAT = [];
-CONFIG.modules.forEach(m => m.questions.forEach(q =>
-  FLAT.push({ module: m.name, text: q.text, opts: q.opts })));
+CONFIG.modules.forEach((m,di)=>m.questions.forEach(q=>FLAT.push({module:m.name,dim:di,text:q.text,opts:q.opts})));
 const TOTAL = FLAT.length;
+const DIM_MAX = 8*3; // 每维8题，每题最高3分
 
-let cur = 0, counts = [0,0,0,0];
+let cur = 0, dimRaw = [0,0,0,0];
 
-// 初始化封面
 document.getElementById('coverCat').textContent = CONFIG.meta.category;
 document.getElementById('coverTitle').innerHTML = CONFIG.meta.title.replace(/\n/g,'<br>');
 document.getElementById('coverSub').textContent = CONFIG.meta.subtitle;
 document.getElementById('coverHint').textContent = CONFIG.meta.hint;
-document.getElementById('coverModules').innerHTML =
-  CONFIG.meta.modules.map(m => `<span class="cover-mod">${m}</span>`).join('');
+document.getElementById('coverModules').innerHTML = CONFIG.meta.modules.map(m=>`<span class="cover-mod">${m}</span>`).join('');
 document.title = CONFIG.meta.title.replace(/\n/g,'');
 
-function show(id) {
-  ['pageCover','pageQuestion','pageLoading','pageResult'].forEach(p => {
-    document.getElementById(p).style.display = 'none';
-  });
-  const el = document.getElementById(id);
-  el.style.display = 'flex';
-  el.style.flexDirection = 'column';
+function show(id){
+  ['pageCover','pageQuestion','pageLoading','pageResult'].forEach(p=>document.getElementById(p).style.display='none');
+  const el=document.getElementById(id); el.style.display='flex'; el.style.flexDirection='column';
 }
+function startTest(){ cur=0; dimRaw=[0,0,0,0]; show('pageQuestion'); renderQ(); }
 
-function startTest() {
-  cur = 0; counts = [0,0,0,0];
-  show('pageQuestion');
-  renderQ();
-}
-
-function renderQ() {
-  const q = FLAT[cur];
-  document.getElementById('progFill').style.width = (cur / TOTAL * 100) + '%';
-  document.getElementById('qMod').textContent = q.module;
-  document.getElementById('qNum').textContent =
-    String(cur + 1).padStart(2,'0') + ' / ' + String(TOTAL).padStart(2,'0');
-
-  const qEl = document.getElementById('qText');
-  const optsEl = document.getElementById('opts');
-  qEl.style.opacity = '0';
-  optsEl.style.opacity = '0';
-
-  // 切题时滚回顶部
-  window.scrollTo({ top: 0, behavior: 'auto' });
-
-  setTimeout(() => {
-    qEl.textContent = q.text;
-    qEl.style.transition = 'opacity .3s';
-    qEl.style.opacity = '1';
-    optsEl.innerHTML = '';
-    optsEl.style.opacity = '1';
-
-    q.opts.forEach((text, i) => {
-      const d = document.createElement('div');
-      d.className = 'opt';
-      d.innerHTML = `<div class="badge">${LABELS[i]}</div><div class="opt-body">${text}</div>`;
-      d.addEventListener('click', () => pick(d, i));
+function renderQ(){
+  const q=FLAT[cur];
+  document.getElementById('progFill').style.width=(cur/TOTAL*100)+'%';
+  document.getElementById('qMod').textContent=q.module;
+  document.getElementById('qNum').textContent=String(cur+1).padStart(2,'0')+' / '+String(TOTAL).padStart(2,'0');
+  const qEl=document.getElementById('qText'), optsEl=document.getElementById('opts');
+  qEl.style.opacity='0'; optsEl.style.opacity='0';
+  window.scrollTo({top:0,behavior:'auto'});
+  setTimeout(()=>{
+    qEl.textContent=q.text; qEl.style.transition='opacity .3s'; qEl.style.opacity='1';
+    optsEl.innerHTML=''; optsEl.style.opacity='1';
+    q.opts.forEach((text,i)=>{
+      const d=document.createElement('div'); d.className='opt';
+      d.innerHTML=`<div class="badge">${LABELS[i]}</div><div class="opt-body">${text}</div>`;
+      d.addEventListener('click',()=>pick(d,i));
       optsEl.appendChild(d);
-      setTimeout(() => d.classList.add('in'), 50 + i * 65);
+      setTimeout(()=>d.classList.add('in'),50+i*65);
     });
-  }, 160);
+  },160);
 }
-
-function pick(el, idx) {
-  document.querySelectorAll('.opt').forEach(o => {
-    o.style.pointerEvents = 'none';
-    o.dataset.locked = '1';
-  });
+function pick(el,idx){
+  document.querySelectorAll('.opt').forEach(o=>{o.style.pointerEvents='none';o.dataset.locked='1';});
   el.classList.add('picked');
-  counts[idx]++;
-  setTimeout(() => {
-    cur++;
-    if (cur < TOTAL) renderQ();
-    else runLoading();
-  }, 440);
+  dimRaw[FLAT[cur].dim]+=(3-idx); // A=3 … D=0
+  setTimeout(()=>{ cur++; if(cur<TOTAL) renderQ(); else runLoading(); },440);
 }
-
-function runLoading() {
-  document.getElementById('progFill').style.width = '100%';
+function runLoading(){
+  document.getElementById('progFill').style.width='100%';
   show('pageLoading');
-  const pctEl = document.getElementById('loadPct');
-  const txtEl = document.getElementById('loadText');
-  const texts = CONFIG.meta.loadingTexts;
-  const DURATION = 2000;
-  const start = performance.now();
-  let ti = 0;
-  txtEl.textContent = texts[0];
-
-  // 文案轮播
-  const textTimer = setInterval(() => {
-    ti = (ti + 1) % texts.length;
-    txtEl.style.opacity = '0';
-    setTimeout(() => { txtEl.textContent = texts[ti]; txtEl.style.opacity = '1'; }, 200);
-  }, 650);
-
-  // 百分比递增
-  function tick(now) {
-    const p = Math.min(1, (now - start) / DURATION);
-    pctEl.textContent = Math.round(p * 100) + '%';
-    if (p < 1) requestAnimationFrame(tick);
-    else { clearInterval(textTimer); showResult(); }
-  }
+  const pctEl=document.getElementById('loadPct'), txtEl=document.getElementById('loadText');
+  const texts=CONFIG.meta.loadingTexts; const DURATION=2600; const start=performance.now(); let ti=0;
+  txtEl.textContent=texts[0];
+  const textTimer=setInterval(()=>{ti=(ti+1)%texts.length;txtEl.style.opacity='0';setTimeout(()=>{txtEl.textContent=texts[ti];txtEl.style.opacity='1';},200);},700);
+  function tick(now){ const p=Math.min(1,(now-start)/DURATION); pctEl.textContent=Math.round(p*100)+'%'; if(p<1) requestAnimationFrame(tick); else {clearInterval(textTimer); showResult();} }
   requestAnimationFrame(tick);
 }
+function tagOf(v){ return v>=70?'良好':v>=55?'一般':v>=40?'偏低':'告急'; }
 
-function showResult() {
-  // 找出现次数最多的字母（并列时按 A>B>C>D 顺序）
-  let max = -1, win = 0;
-  counts.forEach((c, i) => { if (c > max) { max = c; win = i; } });
-  const result = CONFIG.results[win];
+function renderRadar(d){ // d=[0..100]x4, 大=健康
+  const S=280,c=S/2,R=80;
+  const ang=[-Math.PI/2,0,Math.PI/2,Math.PI];
+  let g='';
+  [0.25,0.5,0.75,1].forEach(k=>{const p=ang.map(a=>`${(c+Math.cos(a)*R*k).toFixed(1)},${(c+Math.sin(a)*R*k).toFixed(1)}`).join(' ');g+=`<polygon points="${p}" fill="none" stroke="rgba(71,61,49,0.10)" stroke-width="1"/>`;});
+  let ax=''; ang.forEach(a=>{ax+=`<line x1="${c}" y1="${c}" x2="${(c+Math.cos(a)*R).toFixed(1)}" y2="${(c+Math.sin(a)*R).toFixed(1)}" stroke="rgba(71,61,49,0.12)" stroke-width="1"/>`;});
+  const pts=d.map((v,i)=>{const r=Math.max(4,v/100*R);return `${(c+Math.cos(ang[i])*r).toFixed(1)},${(c+Math.sin(ang[i])*r).toFixed(1)}`;}).join(' ');
+  let dots=d.map((v,i)=>{const r=Math.max(4,v/100*R);return `<circle cx="${(c+Math.cos(ang[i])*r).toFixed(1)}" cy="${(c+Math.sin(ang[i])*r).toFixed(1)}" r="3.2" fill="#a06f44"/>`;}).join('');
+  const lp=[[c,c-R-16],[c+R+6,c+4],[c,c+R+24],[c-R-6,c+4]];
+  const an=['middle','start','middle','end'];
+  let lb=''; DIMS.forEach((l,i)=>{lb+=`<text x="${lp[i][0]}" y="${lp[i][1]}" font-size="12.5" fill="#9a917f" text-anchor="${an[i]}">${l}</text>`;});
+  return `<svg width="${S}" height="${S}" viewBox="0 0 ${S} ${S}">${g}${ax}<polygon points="${pts}" fill="rgba(187,138,94,0.22)" stroke="#bb8a5e" stroke-width="2"/>${dots}${lb}</svg>`;
+}
 
-  document.getElementById('resType').textContent = result.type;
-  document.getElementById('resTagline').textContent = result.tagline;
-  document.getElementById('kwRow').innerHTML =
-    result.keywords.map(k => `<span class="kw">${k}</span>`).join('');
+function showResult(){
+  const dimScore=dimRaw.map(r=>Math.round(r/DIM_MAX*100));
+  const workAxis=Math.round((dimScore[0]+dimScore[1])/2);
+  const selfAxis=Math.round((dimScore[2]+dimScore[3])/2);
+  const T=58; let win;
+  if(workAxis>=T&&selfAxis>=T) win=0;
+  else if(workAxis<T&&selfAxis>=T) win=1;
+  else if(workAxis>=T&&selfAxis<T) win=2;
+  else win=3;
+  const result=CONFIG.results[win];
 
-  // 选择分布
-  const distRows = counts.map((c, i) => {
-    const pct = Math.round(c / TOTAL * 100);
-    return `<div class="dist-row ${i===win?'win':''}">
-      <div class="dist-lab">${LABELS[i]} · ${CONFIG.results[i].type}</div>
-      <div class="dist-bar"><i data-w="${pct}"></i></div>
-      <div class="dist-num">${c}</div>
-    </div>`;
-  }).join('');
-  document.getElementById('distRows').innerHTML = distRows;
+  document.getElementById('resType').textContent=result.type;
+  document.getElementById('resTagline').textContent=result.tagline;
+  document.getElementById('kwRow').innerHTML=result.keywords.map(k=>`<span class="kw">${k}</span>`).join('');
+  document.getElementById('radarWrap').innerHTML=renderRadar(dimScore);
+  document.getElementById('axisSum').innerHTML=
+    `<div class="axis-item"><div class="axis-lab">工作状态</div><div class="axis-val">${workAxis}</div><div class="axis-tag">${tagOf(workAxis)}</div></div>`+
+    `<div class="axis-item"><div class="axis-lab">自我状态</div><div class="axis-val">${selfAxis}</div><div class="axis-tag">${tagOf(selfAxis)}</div></div>`;
 
-  document.getElementById('sections').innerHTML = result.sections.map(s => `
-    <div class="sec">
-      <div class="sec-title">${s.title}</div>
-      <div class="sec-text">${s.text}</div>
-    </div>`).join('');
+  const minS=Math.min(...dimScore);
+  document.getElementById('distRows').innerHTML=dimScore.map((s,i)=>
+    `<div class="dist-row ${s===minS?'low':''}"><div class="dist-lab">${DIMS[i]}</div><div class="dist-bar"><i data-w="${s}"></i></div><div class="dist-num">${s}</div></div>`).join('');
+  document.getElementById('distNote').textContent='标橙色的是你当前最弱的维度，也是最值得先照顾的地方。';
+
+  document.getElementById('sections').innerHTML=result.sections.map(s=>
+    `<div class="sec"><div class="sec-title">${s.title}</div><div class="sec-text">${s.text}</div></div>`).join('');
 
   show('pageResult');
-  window.scrollTo({ top: 0, behavior: 'auto' });
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      document.getElementById('pageResult').classList.add('vis');
-      document.querySelectorAll('.dist-bar i').forEach(b => b.style.width = b.dataset.w + '%');
-    }, 40);
-  });
+  window.scrollTo({top:0,behavior:'auto'});
+  requestAnimationFrame(()=>setTimeout(()=>{
+    document.getElementById('pageResult').classList.add('vis');
+    document.querySelectorAll('.dist-bar i').forEach(b=>b.style.width=b.dataset.w+'%');
+  },40));
 }
-
-function restart() {
-  document.getElementById('pageResult').classList.remove('vis');
-  show('pageCover');
-  window.scrollTo({ top: 0, behavior: 'auto' });
-}
+function restart(){ document.getElementById('pageResult').classList.remove('vis'); show('pageCover'); window.scrollTo({top:0,behavior:'auto'}); }
 </script>
 </body>
 </html>
