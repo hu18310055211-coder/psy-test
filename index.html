@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>心理测试</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0d0d14;
+  --card:#1b1b28;
+  --card2:#20202f;
+  --accent:#c9a76a;
+  --accent-glow:rgba(201,167,106,0.13);
+  --text:#f0ebe2;
+  --muted:#7a7492;
+  --border:rgba(201,167,106,0.18);
+  --sel-bg:rgba(201,167,106,0.14);
+}
+html,body{width:100%;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;overflow-x:hidden}
+body::before{content:'';position:fixed;top:-15%;left:50%;transform:translateX(-50%);width:80vw;height:80vw;background:radial-gradient(circle,rgba(201,167,106,0.055) 0%,transparent 65%);pointer-events:none;z-index:0}
+
+#app{position:relative;z-index:1;width:100%;max-width:480px;margin:0 auto;min-height:100vh}
+
+/* ── COVER ── */
+#pageCover{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:52px 32px;text-align:center}
+.emblem{width:76px;height:76px;margin:0 auto 36px;position:relative;flex-shrink:0}
+.emblem span{position:absolute;border-radius:50%;border:1px solid var(--border)}
+.emblem span:nth-child(1){inset:0}
+.emblem span:nth-child(2){inset:13px;opacity:.55}
+.emblem span:nth-child(3){inset:26px;opacity:.25}
+.emblem i{position:absolute;width:8px;height:8px;background:var(--accent);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+.cover-cat{font-size:11px;letter-spacing:3px;color:var(--accent);margin-bottom:18px;opacity:.8}
+.cover-title{font-size:26px;font-weight:700;line-height:1.45;letter-spacing:.3px;margin-bottom:14px;white-space:pre-wrap}
+.cover-sub{font-size:14px;color:var(--muted);line-height:1.9;margin-bottom:52px}
+.btn-start{background:var(--accent);color:#0d0d14;border:none;border-radius:100px;padding:16px 54px;font-size:16px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:opacity .2s,transform .15s}
+.btn-start:active{opacity:.8;transform:scale(.97)}
+.cover-hint{font-size:12px;color:var(--muted);margin-top:20px;opacity:.5;letter-spacing:.3px}
+
+/* ── QUESTION ── */
+#pageQuestion{display:none;flex-direction:column;min-height:100vh}
+.prog-track{height:2px;background:rgba(255,255,255,0.07)}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),#d4b896);transition:width .45s cubic-bezier(.4,0,.2,1)}
+.q-head{padding:32px 28px 0}
+.q-num{font-size:12px;color:var(--accent);letter-spacing:2.5px;margin-bottom:18px;font-weight:500}
+.q-text{font-size:20px;font-weight:600;line-height:1.6;transition:opacity .25s}
+.opts{padding:26px 20px 0;display:flex;flex-direction:column;gap:11px}
+.opt{display:flex;align-items:flex-start;gap:13px;background:var(--card);border:1.5px solid rgba(255,255,255,0.07);border-radius:16px;padding:17px 18px;cursor:pointer;transition:border-color .2s,background .2s,transform .15s;opacity:0;transform:translateY(10px)}
+.opt.in{opacity:1;transform:translateY(0);transition:opacity .32s,transform .32s,border-color .2s,background .2s}
+.opt.picked{background:var(--sel-bg);border-color:var(--accent)}
+.opt:not(.picked):not([data-locked]):active{transform:scale(.985);border-color:rgba(201,167,106,.3)}
+.badge{width:26px;height:26px;border-radius:50%;border:1.5px solid rgba(201,167,106,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0;transition:background .2s,border-color .2s,color .2s}
+.opt.picked .badge{background:var(--accent);border-color:var(--accent);color:#0d0d14}
+.opt-body{font-size:15px;line-height:1.7;color:var(--text);padding-top:3px}
+
+/* ── RESULT ── */
+#pageResult{display:none;flex-direction:column;min-height:100vh;opacity:0;transition:opacity .4s}
+#pageResult.vis{opacity:1}
+.res-top{padding:60px 28px 32px;text-align:center}
+.res-pill{display:inline-block;font-size:11px;letter-spacing:3px;color:var(--accent);border:1px solid var(--border);border-radius:100px;padding:6px 18px;margin-bottom:26px}
+.res-type{font-size:30px;font-weight:700;margin-bottom:12px;letter-spacing:.5px}
+.res-tagline{font-size:14px;color:var(--muted);line-height:1.9;max-width:280px;margin:0 auto}
+.divider{width:36px;height:1px;background:var(--accent);margin:28px auto;opacity:.4}
+.kw-row{padding:0 24px 16px;display:flex;flex-wrap:wrap;gap:8px}
+.kw{background:var(--accent-glow);border:1px solid var(--border);border-radius:100px;padding:5px 14px;font-size:13px;color:var(--accent)}
+.sections{padding:0 20px 20px;display:flex;flex-direction:column;gap:12px}
+.sec{background:var(--card);border-radius:18px;padding:22px 20px}
+.sec-title{font-size:12px;color:var(--accent);letter-spacing:1.5px;margin-bottom:12px;opacity:.85}
+.sec-text{font-size:15px;line-height:2;color:#e0dbd3}
+.btn-again{display:block;margin:12px 20px 0;background:transparent;color:var(--muted);border:1.5px solid rgba(255,255,255,.1);border-radius:100px;padding:15px;font-size:14px;cursor:pointer;text-align:center;letter-spacing:.5px;width:calc(100% - 40px);transition:border-color .2s,color .2s}
+.btn-again:active{border-color:var(--accent);color:var(--accent)}
+.spacer{height:48px}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- COVER -->
+  <div id="pageCover">
+    <div class="emblem"><span></span><span></span><span></span><i></i></div>
+    <div class="cover-cat" id="coverCat"></div>
+    <h1 class="cover-title" id="coverTitle"></h1>
+    <p class="cover-sub" id="coverSub"></p>
+    <button class="btn-start" onclick="startTest()">开始测试</button>
+    <p class="cover-hint">约2分钟 · 7道题 · 结果仅供参考</p>
+  </div>
+
+  <!-- QUESTION -->
+  <div id="pageQuestion">
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    <div class="q-head">
+      <div class="q-num" id="qNum">01 / 07</div>
+      <div class="q-text" id="qText"></div>
+    </div>
+    <div class="opts" id="opts"></div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="pageResult">
+    <div class="res-top">
+      <div class="res-pill">测试结果</div>
+      <div class="res-type" id="resType"></div>
+      <div class="res-tagline" id="resTagline"></div>
+    </div>
+    <div class="divider"></div>
+    <div class="kw-row" id="kwRow"></div>
+    <div class="sections" id="sections"></div>
+    <button class="btn-again" onclick="restart()">↺ 再测一次</button>
+    <div class="spacer"></div>
+  </div>
+
+</div>
+<script>
+// ================================================================
+//  ★ 配置区 — 只需替换这里，无需动下方任何代码 ★
+// ================================================================
+const CONFIG = {
+  meta: {
+    category: "职业焦虑测试",
+    title: "你该换工作\n还是换活法？",
+    subtitle: "7道题，测出你现在最真实的职业状态",
+  },
+  questions: [
+    {
+      text: "周一早上睁开眼，你的第一反应是？",
+      opts: [
+        "又是无聊又漫长的一天",
+        "撑过今天，明天会不会好点",
+        "我到底在这里图什么",
+        "手机静音，不想面对任何消息"
+      ]
+    },
+    {
+      text: "你上一次在工作中感到「这件事真的值得」，是什么时候？",
+      opts: [
+        "记不起来了，好像从没有过",
+        "有过，但那种感觉离我越来越远",
+        "偶尔有，但很快就被消耗完",
+        "我已经不敢去奢望这种感觉了"
+      ]
+    },
+    {
+      text: "有人问你「你的工作是什么」，你内心的反应是？",
+      opts: [
+        "一阵说不清楚的窘迫",
+        "说出来也没什么意思",
+        "只是一份养活自己的差事",
+        "我还没想好怎么回答这个问题"
+      ]
+    },
+    {
+      text: "你有没有认真想过辞职？",
+      opts: [
+        "每天都在想，但每次都憋回去了",
+        "想过，但不知道辞了能去哪",
+        "想过，但怕辞了后悔",
+        "想过，但家里不允许我任性"
+      ]
+    },
+    {
+      text: "加班或被催的时候，你最先崩溃的点是？",
+      opts: [
+        "没人在乎我做了多少，只在乎做了没有",
+        "明明可以早点说，为什么总是最后一秒",
+        "我的时间不是时间，他们的时间才是时间",
+        "就算完成了也没有任何意义"
+      ]
+    },
+    {
+      text: "如果有人问你「你喜欢自己的工作吗」，你会怎么回答？",
+      opts: [
+        "扯个谎说「还好」",
+        "笑着说「哪有喜不喜欢，赚钱就行」",
+        "沉默一下，然后说「就这样吧」",
+        "忽然想哭，但硬撑着说「凑合」"
+      ]
+    },
+    {
+      text: "你现在对「职业发展」最真实的感受是？",
+      opts: [
+        "没有方向，但又不敢承认",
+        "看别人走得好，说不清是羡慕还是自责",
+        "努力了很久，还是不知道往哪走",
+        "算了，先过一天是一天"
+      ]
+    }
+  ],
+  // 计分：选项顺序 A=1 B=2 C=3 D=4，总分 7–28 → 4种结果
+  results: [
+    {
+      range: [7, 13],
+      type: "清醒困局型",
+      tagline: "你清楚地看见了出口，却好像有什么东西在摁着你",
+      keywords: ["清醒", "困局", "正在等待"],
+      sections: [
+        {
+          title: "你的状态",
+          text: "你是那种「清醒地困住了」的人。不是因为能力不够，不是因为运气太差，是因为这件事从一开始就没有真正属于你。你只是一直在用「还没到时候」来推迟那个你早就知道的答案。"
+        },
+        {
+          title: "那个「摁住你」的东西",
+          text: "你看得见出口，却好像有什么东西让你动不了。那个东西的名字，也许是责任，也许是习惯，也许是你说不出口的恐惧——怕离开之后，你没有更好的。清醒有时候是最重的负担，你同时看见了问题，也看见了所有离开的代价。"
+        },
+        {
+          title: "真正需要的",
+          text: "你不是缺少勇气，你只是还没找到那个能让你迈出去的理由。那个理由，很多时候不是从外面来的——它藏在你还没有认真坐下来问过自己的那个问题里。"
+        }
+      ]
+    },
+    {
+      range: [14, 17],
+      type: "隐性消耗型",
+      tagline: "你已经很累了，只是还没有找到合适的机会承认",
+      keywords: ["慢慢漏气", "隐性消耗", "正在流失"],
+      sections: [
+        {
+          title: "你的状态",
+          text: "你的累不是那种轰轰烈烈的崩溃，而是一种慢慢漏气的感觉。每天都能撑过去，但每天结束的时候，你比昨天少了一点什么。什么时候开始的，你说不清楚，但你知道，曾经的你不是这样的。"
+        },
+        {
+          title: "你在消耗什么",
+          text: "你在这份工作里消耗的，不只是时间，还有那些你本来可以用在别处的热情和想象力。你以为你只是「没有那么喜欢」，但其实你是在用最大的代价，维持一个「还行」的状态。"
+        },
+        {
+          title: "真正需要的",
+          text: "消耗本身不是问题。问题是：你在为什么消耗，消耗完了能换来什么。如果答案让你感觉空，那或许是时候认真坐下来，和自己谈一谈了——不是问「要不要离开」，而是先问「我还剩什么」。"
+        }
+      ]
+    },
+    {
+      range: [18, 22],
+      type: "习惯性麻木型",
+      tagline: "你学会了不去感受，这是一种保护，也是一个信号",
+      keywords: ["习惯包裹", "感知变钝", "等待出口"],
+      sections: [
+        {
+          title: "你的状态",
+          text: "你现在很难被什么真正触动了——不是因为你变强了，而是因为你用「习惯」把自己包了一层。没什么特别开心的，也没什么特别难受的，就这样过着。你甚至不确定自己到底想要什么，因为太久没有认真问过自己了。"
+        },
+        {
+          title: "麻木是怎么来的",
+          text: "麻木是一种很聪明的保护机制。在持续的消耗里，感觉变迟钝，是自我防御的本能。但它的代价是：你在屏蔽痛苦的同时，也屏蔽了那些本来能提醒你「这不对」的信号。"
+        },
+        {
+          title: "真正需要的",
+          text: "你现在需要的，不一定是立刻做决定，而是先允许自己重新感受一下。那些被压下去的感觉，迟早需要找到出口。它们不会消失，只会等待一个被认真听见的机会。"
+        }
+      ]
+    },
+    {
+      range: [23, 28],
+      type: "临界爆发型",
+      tagline: "你正站在一个很重要的路口，再往前一步，很多事情都会不一样",
+      keywords: ["拉至极限", "临界状态", "转折在即"],
+      sections: [
+        {
+          title: "你的状态",
+          text: "你现在的状态，有点像一根橡皮筋被拉到了极限——表面上还在，但已经没有什么弹性了。你可能偶尔会有一种很强烈的冲动：想彻底切断，重头来过。这种冲动不是任性，是你内心某个部分在发信号：到极限了。"
+        },
+        {
+          title: "最大的风险",
+          text: "你现在最需要警惕的，不是「做了错误的决定」，而是在这种高张力的状态下，用疲惫代替判断，用逃离代替选择。真正的改变和逃跑，感觉上很像，但结果完全不同。"
+        },
+        {
+          title: "真正需要的",
+          text: "你已经撑了很久了，这件事本身值得被认真对待。在决定下一步怎么走之前，先给自己一点空间，把那些说不清楚的感受理清楚——因为你真正需要换掉的，也许不只是工作。"
+        }
+      ]
+    }
+  ]
+};
+// ================================================================
+//  逻辑代码（替换配置无需修改以下内容）
+// ================================================================
+
+let cur = 0, scores = [];
+const LABELS = ['A','B','C','D'];
+
+// 初始化封面
+document.getElementById('coverCat').textContent = CONFIG.meta.category;
+document.getElementById('coverTitle').innerHTML = CONFIG.meta.title.replace(/\n/g,'<br>');
+document.getElementById('coverSub').textContent = CONFIG.meta.subtitle;
+document.title = CONFIG.meta.title.replace(/\n/g,'');
+
+function show(id) {
+  ['pageCover','pageQuestion','pageResult'].forEach(p => {
+    const el = document.getElementById(p);
+    el.style.display = 'none';
+    el.style.flexDirection = '';
+  });
+  const el = document.getElementById(id);
+  el.style.display = 'flex';
+  el.style.flexDirection = 'column';
+}
+
+function startTest() {
+  cur = 0; scores = [];
+  show('pageQuestion');
+  renderQ();
+}
+
+function renderQ() {
+  const q = CONFIG.questions[cur];
+  const total = CONFIG.questions.length;
+  document.getElementById('progFill').style.width = (cur / total * 100) + '%';
+  document.getElementById('qNum').textContent =
+    String(cur + 1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+
+  const qEl = document.getElementById('qText');
+  const optsEl = document.getElementById('opts');
+  qEl.style.opacity = '0';
+  optsEl.style.opacity = '0';
+
+  setTimeout(() => {
+    qEl.textContent = q.text;
+    qEl.style.transition = 'opacity .3s';
+    qEl.style.opacity = '1';
+    optsEl.innerHTML = '';
+    optsEl.style.opacity = '1';
+
+    q.opts.forEach((text, i) => {
+      const d = document.createElement('div');
+      d.className = 'opt';
+      d.innerHTML = `<div class="badge">${LABELS[i]}</div><div class="opt-body">${text}</div>`;
+      d.addEventListener('click', () => pick(d, i + 1));
+      optsEl.appendChild(d);
+      setTimeout(() => d.classList.add('in'), 60 + i * 70);
+    });
+  }, 160);
+}
+
+function pick(el, score) {
+  document.querySelectorAll('.opt').forEach(o => {
+    o.style.pointerEvents = 'none';
+    o.dataset.locked = '1';
+  });
+  el.classList.add('picked');
+  scores.push(score);
+  setTimeout(() => {
+    cur++;
+    if (cur < CONFIG.questions.length) renderQ();
+    else showResult();
+  }, 480);
+}
+
+function showResult() {
+  const total = scores.reduce((a, b) => a + b, 0);
+  const result = CONFIG.results.find(r => total >= r.range[0] && total <= r.range[1])
+    || CONFIG.results[CONFIG.results.length - 1];
+
+  document.getElementById('progFill').style.width = '100%';
+  document.getElementById('resType').textContent = result.type;
+  document.getElementById('resTagline').textContent = result.tagline;
+  document.getElementById('kwRow').innerHTML = result.keywords.map(k =>
+    `<span class="kw">${k}</span>`).join('');
+  document.getElementById('sections').innerHTML = result.sections.map(s => `
+    <div class="sec">
+      <div class="sec-title">${s.title}</div>
+      <div class="sec-text">${s.text}</div>
+    </div>`).join('');
+
+  show('pageResult');
+  requestAnimationFrame(() =>
+    setTimeout(() => document.getElementById('pageResult').classList.add('vis'), 30));
+}
+
+function restart() {
+  document.getElementById('pageResult').classList.remove('vis');
+  show('pageCover');
+}
+</script>
+</body>
+</html>
