@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>心理测试</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#f0ece4;
+  --bg2:#e8e2d6;
+  --card:#fdfbf7;
+  --accent:#8b6f5e;
+  --accent-deep:#6e5446;
+  --accent-soft:rgba(139,111,94,0.12);
+  --text:#3d342c;
+  --text-soft:#5a4e44;
+  --muted:#998a7e;
+  --border:rgba(61,52,44,0.09);
+  --sel-bg:rgba(139,111,94,0.10);
+}
+html,body{width:100%;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(120% 60% at 50% 0%,rgba(139,111,94,0.07) 0%,transparent 55%),var(--bg);pointer-events:none;z-index:0}
+
+#app{position:relative;z-index:1;width:100%;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:env(safe-area-inset-bottom)}
+
+/* ── COVER ── */
+#pageCover{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:56px 32px;text-align:center}
+.emblem{width:78px;height:78px;margin:0 auto 34px;position:relative;flex-shrink:0}
+.emblem span{position:absolute;border-radius:50%;border:1px solid var(--accent);opacity:.5}
+.emblem span:nth-child(1){inset:0;opacity:.28}
+.emblem span:nth-child(2){inset:13px;opacity:.5}
+.emblem span:nth-child(3){inset:26px;opacity:.75}
+.emblem i{position:absolute;width:9px;height:9px;background:var(--accent);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+.cover-cat{font-size:11px;letter-spacing:4px;color:var(--accent-deep);margin-bottom:20px;font-weight:500}
+.cover-title{font-size:25px;font-weight:700;line-height:1.5;color:var(--text);margin-bottom:16px;word-break:keep-all;overflow-wrap:break-word}
+.cover-sub{font-size:14px;color:var(--muted);line-height:1.9;margin-bottom:30px}
+.cover-modules{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:46px}
+.cover-mod{font-size:12px;color:var(--accent-deep);background:var(--accent-soft);border:1px solid var(--border);border-radius:100px;padding:6px 14px}
+.btn-start{background:var(--accent);color:#fdfbf7;border:none;border-radius:100px;padding:17px 58px;font-size:16px;font-weight:700;letter-spacing:1px;cursor:pointer;box-shadow:0 8px 22px rgba(139,111,94,.28);transition:transform .15s,box-shadow .2s}
+.btn-start:active{transform:scale(.97);box-shadow:0 4px 12px rgba(139,111,94,.22)}
+.cover-hint{font-size:12px;color:var(--muted);margin-top:20px;opacity:.75;letter-spacing:.3px}
+
+/* ── QUESTION ── */
+#pageQuestion{display:none;flex-direction:column;min-height:100vh}
+.prog-track{height:3px;background:rgba(61,52,44,0.07)}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent-deep),var(--accent));transition:width .45s cubic-bezier(.4,0,.2,1)}
+.q-head{padding:34px 28px 0}
+.q-meta{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.q-mod{font-size:11px;color:var(--accent-deep);background:var(--accent-soft);border-radius:100px;padding:4px 11px;letter-spacing:.5px;font-weight:500}
+.q-num{font-size:12px;color:var(--muted);letter-spacing:2px;font-weight:500}
+.q-text{font-size:20px;font-weight:600;line-height:1.6;color:var(--text);word-break:keep-all;overflow-wrap:break-word;transition:opacity .25s}
+.opts{padding:26px 20px 36px;display:flex;flex-direction:column;gap:11px}
+.opt{display:flex;align-items:center;gap:14px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px;min-height:62px;cursor:pointer;box-shadow:0 2px 10px rgba(61,52,44,.03);transition:border-color .2s,background .2s,transform .15s;opacity:0;transform:translateY(10px)}
+.opt.in{opacity:1;transform:translateY(0);transition:opacity .32s,transform .32s,border-color .2s,background .2s}
+.opt.picked{background:var(--sel-bg);border-color:var(--accent)}
+.opt:not(.picked):not([data-locked]):active{transform:scale(.985);border-color:rgba(139,111,94,.4)}
+.badge{width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(139,111,94,.35);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent-deep);flex-shrink:0;line-height:1;transition:background .2s,border-color .2s,color .2s}
+.opt.picked .badge{background:var(--accent);border-color:var(--accent);color:#fdfbf7}
+.opt-body{font-size:15px;line-height:1.55;color:var(--text-soft);flex:1}
+
+/* ── LOADING ── */
+#pageLoading{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 36px;text-align:center}
+.spinner{width:56px;height:56px;border:3px solid rgba(139,111,94,.18);border-top-color:var(--accent);border-radius:50%;animation:spin .9s linear infinite;margin-bottom:30px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.load-pct{font-size:38px;font-weight:700;color:var(--accent-deep);letter-spacing:1px;margin-bottom:14px;font-variant-numeric:tabular-nums}
+.load-text{font-size:14px;color:var(--muted);line-height:1.9;min-height:26px;transition:opacity .3s}
+
+/* ── RESULT ── */
+#pageResult{display:none;flex-direction:column;min-height:100vh;opacity:0;transition:opacity .5s}
+#pageResult.vis{opacity:1}
+.res-top{padding:62px 28px 30px;text-align:center}
+.res-pill{display:inline-block;font-size:11px;letter-spacing:3px;color:var(--accent-deep);background:var(--accent-soft);border-radius:100px;padding:6px 18px;margin-bottom:26px}
+.res-type{font-size:32px;font-weight:700;color:var(--text);margin-bottom:14px;letter-spacing:.5px}
+.res-tagline{font-size:15px;color:var(--text-soft);line-height:1.95;max-width:300px;margin:0 auto}
+.kw-row{padding:24px 24px 6px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.kw{background:var(--accent-soft);border:1px solid var(--border);border-radius:100px;padding:5px 14px;font-size:13px;color:var(--accent-deep)}
+.dist{margin:22px 20px 8px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px}
+.dist-title{font-size:12px;color:var(--accent-deep);letter-spacing:1.5px;margin-bottom:16px}
+.dist-row{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.dist-row:last-child{margin-bottom:0}
+.dist-lab{font-size:12px;color:var(--muted);width:80px;flex-shrink:0}
+.dist-bar{flex:1;height:8px;background:rgba(61,52,44,.06);border-radius:100px;overflow:hidden}
+.dist-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent-deep),var(--accent));border-radius:100px;width:0;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.dist-num{font-size:12px;color:var(--muted);width:30px;text-align:right;flex-shrink:0}
+.divider{width:38px;height:1px;background:var(--accent);margin:30px auto 6px;opacity:.4}
+.sections{padding:18px 20px 16px;display:flex;flex-direction:column;gap:13px}
+.sec{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px 20px;box-shadow:0 2px 12px rgba(61,52,44,.03)}
+.sec-title{font-size:13px;color:var(--accent-deep);letter-spacing:1px;margin-bottom:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.sec-title::before{content:'';width:14px;height:2px;background:var(--accent);border-radius:2px}
+.sec-text{font-size:15px;line-height:2;color:var(--text-soft);white-space:pre-wrap}
+.btn-again{display:block;margin:14px 20px 0;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:100px;padding:15px;font-size:14px;cursor:pointer;text-align:center;letter-spacing:.5px;width:calc(100% - 40px);transition:border-color .2s,color .2s}
+.btn-again:active{border-color:var(--accent);color:var(--accent-deep)}
+.foot{text-align:center;font-size:11px;color:var(--muted);opacity:.6;padding:24px 20px;line-height:1.8}
+.spacer{height:30px}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- COVER -->
+  <div id="pageCover">
+    <div class="emblem"><span></span><span></span><span></span><i></i></div>
+    <div class="cover-cat" id="coverCat"></div>
+    <h1 class="cover-title" id="coverTitle"></h1>
+    <p class="cover-sub" id="coverSub"></p>
+    <div class="cover-modules" id="coverModules"></div>
+    <button class="btn-start" onclick="startTest()">开始测试</button>
+    <p class="cover-hint" id="coverHint"></p>
+  </div>
+
+  <!-- QUESTION -->
+  <div id="pageQuestion">
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    <div class="q-head">
+      <div class="q-meta">
+        <span class="q-mod" id="qMod"></span>
+        <span class="q-num" id="qNum"></span>
+      </div>
+      <div class="q-text" id="qText"></div>
+    </div>
+    <div class="opts" id="opts"></div>
+  </div>
+
+  <!-- LOADING -->
+  <div id="pageLoading">
+    <div class="spinner"></div>
+    <div class="load-pct" id="loadPct">0%</div>
+    <div class="load-text" id="loadText"></div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="pageResult">
+    <div class="res-top">
+      <div class="res-pill">你的关系模式分析报告</div>
+      <div class="res-type" id="resType"></div>
+      <div class="res-tagline" id="resTagline"></div>
+    </div>
+    <div class="kw-row" id="kwRow"></div>
+    <div class="dist">
+      <div class="dist-title">你的两轴分布</div>
+      <div id="distRows"></div>
+    </div>
+    <div class="divider"></div>
+    <div class="sections" id="sections"></div>
+    <button class="btn-again" onclick="restart()">↺ 重新测试</button>
+    <div class="foot">本测试基于依恋理论与创伤心理学设计，结果仅供自我觉察参考，不构成医学或心理诊断。</div>
+    <div class="spacer"></div>
+  </div>
+
+</div>
+<script>
+// ================================================================
+//  配置区
+//  计分规则：两轴评分
+//  轴1（创伤底色）= 第1-16题得分之和（16-64分）
+//  轴2（觉察程度）= 第17-32题得分之和（16-64分）
+//  每题 A=1 B=2 C=3 D=4
+//  结果判定：
+//    低创伤(≤32) + 高觉察(≤32) → results[0] 清醒引路型
+//    高创伤(>32)  + 高觉察(≤32) → results[1] 疗愈觉醒型
+//    高创伤(>32)  + 低觉察(>32) → results[2] 创伤重演型
+//    低创伤(≤32) + 低觉察(>32) → results[3] 本能探索型
+// ================================================================
+const CONFIG = {
+  meta: {
+    category: "关系模式深度测评",
+    title: "你总爱上同一类人，\n是童年创伤，还是命中注定？",
+    subtitle: "32道题，照见你感情选择背后真正的驱动力",
+    modules: ["原生家庭", "依恋模式", "吸引力来源", "情感觉察"],
+    hint: "约5分钟 · 32题 · 结果仅供自我觉察",
+    loadingTexts: ["正在分析你的 32 个选择…", "正在比对你的关系模式…", "正在生成你的专属报告…"]
+  },
+
+  modules: [
+    { name: "原生家庭", questions: [
+      { text: "小时候，当你向父母表达难过或害怕，他们通常会：", opts: [
+        "耐心陪着我，告诉我没事",
+        "尝试安慰，但有时不太知道怎么回应",
+        "让我别哭，说「有什么好哭的」",
+        "忽视、否定，或直接发火" ] },
+      { text: "你印象中，父母之间的关系是：", opts: [
+        "相互尊重，偶尔吵架但能好好解决",
+        "凑合过，彼此冷淡但没有激烈冲突",
+        "经常争吵，我常常被夹在中间",
+        "一方强势控制，另一方沉默或逃避" ] },
+      { text: "父母对你的爱，你觉得：", opts: [
+        "是无条件的，就算我表现不好他们也爱我",
+        "大多数时候是爱的，但有一些条件",
+        "我必须表现好、听话，才能获得认可",
+        "我从来不确定他们是否真的爱我" ] },
+      { text: "你成长过程中，家里的气氛通常是：", opts: [
+        "温暖、放松，可以做自己",
+        "还好，平静但不太亲密",
+        "紧张，我需要察言观色",
+        "充满不安全感，随时可能爆发" ] },
+      { text: "当你犯错或失败时，父母会：", opts: [
+        "帮我分析原因，鼓励我再试",
+        "批评，但之后也会关心",
+        "严厉责骂，让我觉得「我很差劲」",
+        "完全否定，或拿我跟别人比较来贬低我" ] },
+      { text: "关于个人空间，你的父母：", opts: [
+        "尊重我的隐私和边界",
+        "偶尔会过问太多，但大体上还好",
+        "经常替我做决定，或翻我的东西",
+        "把我当成满足他们需求的工具" ] },
+      { text: "小时候，你有没有经历过强烈的「被抛弃感」？", opts: [
+        "没有，我的安全感一直比较稳定",
+        "偶尔有，但不持续",
+        "有过，那段时间对我影响挺大",
+        "这是我童年的底色，一直都在" ] },
+      { text: "现在回想起童年，你的主要感受是：", opts: [
+        "总体温暖，值得被记住",
+        "混合的，有好有坏",
+        "比较灰暗，不太想提起",
+        "很痛，或者根本记不清（可能是压抑了）" ] }
+    ]},
+    { name: "依恋模式", questions: [
+      { text: "在亲密关系里，当对方变得有距离感时，你通常：", opts: [
+        "给对方空间，相信关系是稳定的",
+        "有点担心，但能控制住",
+        "会反复确认，发消息看对方回应",
+        "陷入极度焦虑，开始猜测是不是自己的问题" ] },
+      { text: "当对方主动靠近、表达亲密时，你：", opts: [
+        "自然接受，享受被爱",
+        "喜欢，但有时不知道怎么回应",
+        "高兴，但很快担心「这能持续吗」",
+        "感到不舒服或想逃走，觉得太近了" ] },
+      { text: "你害怕被抛弃吗？", opts: [
+        "不太，我相信关系的稳定性",
+        "偶尔有，但不会影响我的行为",
+        "是的，这个恐惧经常驱动我的反应",
+        "非常害怕，但我宁可主动离开也不等被抛弃" ] },
+      { text: "你在一段关系里感到最安全的状态是：", opts: [
+        "对方的爱是稳定的，不需要时刻确认",
+        "关系进展顺利，没有冲突",
+        "对方及时回应我，让我知道他在",
+        "我保持一定距离，不完全依赖任何人" ] },
+      { text: "当关系里出现冲突，你倾向于：", opts: [
+        "冷静沟通，说出自己的感受",
+        "先冷静一下，再开口",
+        "情绪化地表达，担心对方会离开",
+        "沉默、逃避，或直接冷战" ] },
+      { text: "对你来说，「真正的亲密」：", opts: [
+        "是让人安心的，我不怕被看见",
+        "大多数时候是好的，偶尔有点不自在",
+        "又渴望又害怕，想靠近却担心受伤",
+        "感觉有点危险，还不如保持独立" ] },
+      { text: "你在感情里，会压抑自己的需求吗？", opts: [
+        "不会，我愿意表达自己的需要",
+        "偶尔会为了照顾对方而忍",
+        "经常这样，怕提了对方会嫌弃",
+        "一直都是，我不相信自己的需求值得被满足" ] },
+      { text: "感情结束时，你通常感受到：", opts: [
+        "悲伤，但理解，我们不合适",
+        "比较难受，需要一段时间恢复",
+        "强烈自责，或者觉得是自己不够好",
+        "巨大的恐慌或空虚，觉得自己会垮掉" ] }
+    ]},
+    { name: "吸引力来源", questions: [
+      { text: "你在感情里，通常会被哪类人吸引？", opts: [
+        "性格稳定、情绪成熟、给我安全感的人",
+        "个性鲜明、有趣、让我有新鲜感的人",
+        "需要我照顾、或者有点「破碎感」的人",
+        "情绪不稳定、忽冷忽热、让我捉摸不透的人" ] },
+      { text: "回看你爱过的人，他们有没有某种相似的「底色」？", opts: [
+        "差别挺大，我喜欢不同类型的人",
+        "有一些相似，但不强烈",
+        "是的，我发现我总爱某一种「感觉」",
+        "几乎是同一种人，有时连我自己都觉得奇怪" ] },
+      { text: "「那种感觉对了就是命中注定」——这个想法在你感情里：", opts: [
+        "只是参考，我更看重实际相处",
+        "有时会这么想，但不完全依赖感觉",
+        "是我选择对象的重要依据",
+        "「那种感觉」对我来说几乎是唯一标准" ] },
+      { text: "你说的「那种感觉」，对你来说更像是：", opts: [
+        "平静的心动，感觉对方懂我",
+        "开心、轻松、相处自然",
+        "一种熟悉的温度，像回家",
+        "强烈的情绪波动，既兴奋又不安" ] },
+      { text: "你有没有过「明知道对方不适合我，但控制不了」的经历？", opts: [
+        "没有，或者很少",
+        "偶尔有，但最终理性占上风",
+        "有，而且不止一次",
+        "这几乎是我谈恋爱的常态" ] },
+      { text: "当一个人对你特别好、特别稳定时，你的反应通常是：", opts: [
+        "很好，我珍惜这种稳定",
+        "喜欢，但需要一点时间适应",
+        "感谢，但不太确定自己配不配",
+        "觉得无聊或不真实，反而没什么感觉" ] },
+      { text: "你会被「受伤的人」或「需要被拯救的人」吸引吗？", opts: [
+        "不会，我更被成熟稳定的人吸引",
+        "偶尔会有同情，但不影响我的选择",
+        "会，我常常想帮他/她「变好」",
+        "非常会，感觉他们需要我，我才有价值" ] },
+      { text: "你有没有想过：你爱上的那些人，和你的父母有什么相似之处？", opts: [
+        "没有，或者完全不像",
+        "可能有一点，但没深想过",
+        "想过，有些地方确实很像",
+        "是的，这个发现让我很震惊或难受" ] }
+    ]},
+    { name: "情感觉察", questions: [
+      { text: "对「原生家庭影响感情」这件事，你：", opts: [
+        "清楚地看见这个影响，并在有意识地处理",
+        "有一些了解，但没深入探索过",
+        "觉得可能有关，但不确定怎么影响我",
+        "觉得和我没关系，或者不想碰这个话题" ] },
+      { text: "当感情出了问题，你第一个念头通常是：", opts: [
+        "我们哪里出了问题？我能做什么？",
+        "是我的问题还是他的问题？",
+        "一定是我不够好",
+        "我不知道，一片混乱" ] },
+      { text: "你能清楚说出「我在感情里需要什么」吗？", opts: [
+        "是的，我比较清楚自己的需求",
+        "大概知道，但没想得很细",
+        "说不太清，感觉自己什么都想要",
+        "完全说不清，或者觉得我的需求不重要" ] },
+      { text: "做这份测试前，你有没有认真想过「我为什么总爱同一类人」？", opts: [
+        "想过，而且有一些答案了",
+        "有时候闪过这个念头",
+        "隐约知道有问题，但不敢深想",
+        "没想过，或者这个问题让我很不舒服" ] },
+      { text: "当你情绪不好、或感情受伤，你会：", opts: [
+        "允许自己难过，然后主动处理",
+        "压一压，过段时间就好了",
+        "很久出不来，反复回想",
+        "完全麻木，或者用其他方式逃避" ] },
+      { text: "如果有人说「你的感情模式来自童年」，你的第一反应是：", opts: [
+        "认同，我自己也这么觉得",
+        "可能有道理，愿意了解",
+        "有点抗拒，感觉在指责我",
+        "强烈排斥，不想听" ] },
+      { text: "你有没有读过心理相关的书、或认真做过自我探索？", opts: [
+        "有，这是我很重视的部分",
+        "偶尔看一些，但没系统做过",
+        "想做但没行动",
+        "没有，也不觉得有必要" ] },
+      { text: "做完这个测试，你心里的感受更接近：", opts: [
+        "平静，我准备好面对答案",
+        "好奇，看看会测出什么",
+        "有点紧张，怕看到什么",
+        "很不舒服，但还是想知道" ] }
+    ]}
+  ],
+
+  // results[0]=清醒引路型 [1]=疗愈觉醒型 [2]=创伤重演型 [3]=本能探索型
+  results: [
+    {
+      type: "清醒引路型",
+      tagline: "你爱的，有很大概率，就是命中注定的那种契合",
+      keywords: ["自主选择", "安全型依恋", "真实的爱"],
+      sections: [
+        { title: "行为画像", text:
+"你在感情里，总体是一个状态稳定的人。你知道自己大致想要什么，也大致知道自己为什么被某人吸引。你不容易被「那种感觉」完全掌控，能在兴奋和理性之间找到平衡。\n你爱过的人，可能类型各有不同，但有一个共同点：你在选择他们时，是清醒的。不是没有感觉，是感觉里有方向。" },
+        { title: "驱动力", text:
+"驱动你的，更多是真实的共鸣和契合，而不是被什么无名的力量拉着走。\n你的原生家庭，给了你一个相对安全的情感底座。你知道「被爱」是什么感觉，所以当一个人出现，你有能力分辨：这是爱，还是只是熟悉的刺激。这个底座不是完美的——没有人的童年是完美的——但它足够稳，让你在感情里不容易迷失。" },
+        { title: "压力下的你", text:
+"当关系出现问题，你通常能相对冷静地面对。你不会第一时间自责，也不会完全逃开。你倾向于去理解发生了什么，并尝试沟通。\n但「相对冷静」不是「完全没受伤」。你也会难过，也会在深夜翻来覆去想。只是你有能力把自己拉回来，而不是在情绪里越陷越深。" },
+        { title: "适合你的环境", text:
+"你在平等、尊重、可以真实表达自己的关系里，状态最好。\n你不需要对方无时无刻在线，也不需要完美契合。你需要的是：对方是真的在意我，而不是在演一出戏。你也有能力成为别人感情里的「安全港」——你的稳定，可以帮助一个正在疗愈的人建立更健康的依恋模式。" },
+        { title: "核心结论", text:
+"你爱的，有相当大的比例，是真实的你在选择。\n这不是说你没有任何模式或盲点——每个人都有。但你的底色是安全的，你的觉察力是在线的。你爱的，有很大概率，就是命中注定的那种契合。\n继续相信那个清醒的自己。不是所有的感觉都是命中注定，但你的判断力，比你以为的更可靠。" },
+        { title: "深度解析", text:
+"心理学里把你这种状态叫做「安全型依恋」。安全型的人，在早期关系里得到了足够的回应和稳定，因此建立起了一种基本信念：我值得被爱，爱是安全的。\n这种信念让你在感情里有弹性——受伤了会痛，但不会垮；失去了会悲伤，但不会失去自己。安全型依恋的人，大约占成年人的50%。但这不是说你永远不会有问题——生活的压力、特定的创伤，都可能暂时动摇这个底座。" },
+        { title: "未来走势", text:
+"你现在的状态，是很多人努力追求的目标。\n不需要大幅改变，需要的是：继续保持觉察，注意自己在感情里偶尔会有的盲点，以及在遭遇挫折时，不要让一次创伤覆盖掉你原本健康的底色。\n下一步，是探索「我真正渴望在关系里得到什么」——不是对方的条件，而是一种感觉。这会让你的选择更精准，而不只是「不错」。" },
+        { title: "未来走势预测", text:
+"不处理：你会一直保持现在的状态，「够好」但可能缺少深度。\n往深走：当你愿意往内探索，你会发现深度亲密有一种「够用」以外的东西——它让你真正地被看见，而不只是被陪伴。" },
+        { title: "30天行动地图", text:
+"第1周·记录：写下这段时间你在感情里最享受的3件事，和最不舒服的1件事。\n第2周·探索盲点：问自己：我在感情里有没有什么「不敢说」的需求？是什么让我不敢说？\n第3周·外部视角：找一个你信任的人，聊聊你在感情里的模式——让别人的视角帮你看见自己看不见的角落。\n第4周·珍视：写一封信给自己，告诉自己：我在感情里值得拥有什么。" },
+        { title: "写给你", text:
+"你已经比大多数人，更接近「真实地爱人」了。\n继续相信那个清醒的自己。当下一个让你心动的人出现，你有能力分辨：这是因为他真的好，还是只是因为他「感觉对了」。\n这个能力，很珍贵。好好用它。" }
+      ]
+    },
+    {
+      type: "疗愈觉醒型",
+      tagline: "你已经开始看见自己了。这一步，比你以为的更重要",
+      keywords: ["觉察中", "旧模式", "正在改变"],
+      sections: [
+        { title: "行为画像", text:
+"你不是那种完全「看不见」自己模式的人——你能感觉到，有什么东西在拉着你，走向某一类人，某一种关系。\n但「看见」和「能停下来」之间，还有一段距离。你可能有过这样的瞬间：意识到「我又来了」，然后还是选择走进去。不是因为不够清醒，而是那种感觉太熟悉了，熟悉到有一种别扭的安慰。" },
+        { title: "驱动力", text:
+"驱动你的，是两股力量在同时拉扯。\n一股是童年留下的习惯回路：熟悉的感觉、熟悉的动作、熟悉的痛。这条路走了太久，神经元已经把它铺平了。\n另一股是你正在成长的觉察力：你知道这条路通往哪里，你想走一条新的。\n这种拉扯，有时候会让你很累。因为你没有办法「不知道」，却又还没完全跳出来。这不是你的失败——这是改变最难的那个阶段。" },
+        { title: "压力下的你", text:
+"当关系出了问题，你会同时有两种反应：\n一部分的你在清醒地分析：哦，我的焦虑又触发了，这是那个旧模式。\n另一部分的你在感受：但我就是难受，我控制不了。\n这两个声音并存，会让你在压力下感到分裂。你比以前懂了很多，但懂了不代表不痛了。" },
+        { title: "适合你的环境", text:
+"你最需要的，是一个有耐心的伴侣——他愿意在你的模式触发时，不跑开、不攻击，而是稳稳地在原地等你。\n同时，一个支持你自我探索的环境（朋友、咨询师、或者书和社群）也很重要。你需要的不是被人「治好」，而是有人陪你走这段路。" },
+        { title: "核心结论", text:
+"你是这四种结果里，最难、也最有力量的一种。\n你的创伤不浅，但你已经开始看见了。这种觉察，是改变的入口——大多数人，终其一生都找不到这个入口。\n你爱的那些人，有一部分来自创伤，有一部分来自真实的你。而那个「真实的你」，正在越来越有力量。" },
+        { title: "深度解析", text:
+"你现在所在的位置，心理学里叫做「觉察性改变阶段」。\n这个阶段的特点是：知道模式，但改变还没有内化成自动化的行为。就像你知道要迈步，但肌肉记忆还在原来的轨道上。\n神经科学告诉我们，改变神经回路，平均需要持续66天以上的新行为重复。你的觉察，是第一步。接下来需要的，是在每一次模式触发时，做出哪怕一个微小的不同选择。" },
+        { title: "未来走势", text:
+"继续走下去，不是变成一个没有任何模式的人，而是你的模式越来越多地来自真实的自己，越来越少地来自童年的伤。\n不处理：拉扯会持续，你会在「懂了但还是做了」的无力感里消耗自己。\n往前走：每一次多一点点觉察，模式就少一点对你的控制。方向对了，就够了。" },
+        { title: "未来走势预测", text:
+"对你来说，最难受的状态是：「我明明知道，但还是做了。」\n这种无力感，会把你推向深度的自我否定。当这种念头出现，请记住：你正在改变的，是几十年的神经回路。它不会在你「懂了」的那一刻就消失。" },
+        { title: "30天行动地图", text:
+"第1周·命名：给你发现的那个主要模式起个名字。比如「追逐者模式」或者「我不够好的声音」。命名，是驯服它的第一步。\n第2周·按暂停键：当你感觉到那个模式被触发，试着说出声：「我现在在进入那个模式了。」不需要马上改变行为，只是说出来。\n第3周·一个新动作：选一件在旧模式里你不会做的事，做一次。可以很小：比如旧模式里你会先道歉，这次先沉默10分钟再开口。\n第4周·记录变化：写下这个月里，你哪一次做了不一样的选择，哪怕很小。把它写下来——大脑需要看见证据，才会相信改变在发生。" },
+        { title: "写给你", text:
+"你能走到这一步，已经需要了很大的勇气。\n很多人一辈子都不会去看自己的模式。你看了，还在尝试改变——哪怕改变得还不够快，哪怕还是会滑回去。\n疗愈不是一条直线。你不需要每次都做对。你只需要，每次多一点点地，选择真实的自己。\n那已经，非常了不起了。" }
+      ]
+    },
+    {
+      type: "创伤重演型",
+      tagline: "你爱的，不是命中注定的人，而是那个让你想起童年感觉的人",
+      keywords: ["强迫性重复", "创伤联结", "等待看见"],
+      sections: [
+        { title: "行为画像", text:
+"你在感情里，常常处于一种「追着对方跑」的状态，却说不清为什么。\n你特别容易被有「破碎感」的人吸引——想去理解他、修复他、用你的爱治愈他。你的付出没有边界，甚至会为了维系关系，悄悄压掉自己的需求。\n你可能有过这样的经历：明明知道对方不合适，但走不掉。或者：一段还不错的关系，你却隐约觉得「少了什么」——因为它太平静，没有那种熟悉的情绪起伏。" },
+        { title: "驱动力", text:
+"驱动你选择的，核心是「熟悉感」。心理学有个概念叫「强迫性重复」：人会不自觉地寻找让自己「回家」的感觉，哪怕那个「家」并不安全。\n你童年里，可能习惯了某种爱的方式——被忽视、被否定、需要表现才被认可，或者在不稳定的环境里长大。这些体验，让你把「努力争取才能得到的爱」，当成了爱本来的样子。\n所以当一个情绪稳定的人出现，你反而没什么感觉。不是他不好，是他不像你童年熟悉的那种张力。" },
+        { title: "压力下的你", text:
+"当关系出现裂缝，你的第一反应往往是自责：「是我不够好吗？是我做错了什么？」\n你很难保持平静。你可能会反复确认对方的状态，把精力都用在「搞清楚对方怎么了」上，而不是先照顾自己。\n如果对方给出距离，你会更靠近；如果对方靠近，你可能又退缩——这种矛盾的拉扯，让你在关系里很累。" },
+        { title: "适合你的环境", text:
+"当对方情绪稳定、有耐心、愿意接住你的不安全感时，你会慢慢放松。\n你需要的不是完美，而是「就算我有点难，你也不会跑」的信号。\n真正适合你的关系，是让你「什么都不用做也感到被爱」——但这种关系，你可能从没遇到过，或者遇到了也不敢相信。" },
+        { title: "核心结论", text:
+"你爱的，不是命中注定的人。\n你爱的，是那个「让你想起童年感觉」的人。\n这不是你的错。这是一套大脑在你还小的时候，为了生存而建立的系统——它让你不断寻找熟悉的东西，哪怕那个东西曾经伤害过你。\n看见这个，不是为了让你觉得自己可怜。而是为了给你一个机会——第一次，真正自由地选择。" },
+        { title: "深度解析", text:
+"心理学中，这种模式有个名字：「创伤性联结（Trauma Bond）」。\n当一个人在早期关系中，经历了「既爱又痛」的模式，大脑会把「强烈的情绪波动」和「深度连接」画上等号。\n这就是为什么，那些让你情绪起伏很大的人，反而让你觉得「爱得深」。而平静稳定的人，你会觉得「太淡了，没感觉」。\n但情绪的强度，不等于感情的深度。那种波动，是创伤的触发，不是爱的证明。" },
+        { title: "未来走势", text:
+"如果不做改变：你会继续在类似的关系里循环。每次都觉得「这次不一样」，但最后的伤，总是很相似。\n如果开始处理：第一步不是「找到更好的人」，而是先认识自己的模式。当你能清楚地看见「我又在重演了」，你就拿回了选择的权力。\n改变不是一夜之间的事。但每一次多一点觉察，模式就少一点对你的控制。" },
+        { title: "忽冷忽热的人是你的毒药", text:
+"对方一会儿靠近一会儿消失，会触发你内心最深的恐惧：我是不是不值得被爱？\n讽刺的是，这种人你最容易爱上。因为那种追逐和不确定，和你童年熟悉的感觉重叠了。\n你越是往前追，他越是退；他靠近了，你反而犹豫。这不是两个人的问题，是你在用一段感情，重演一段更早的故事。" },
+        { title: "30天行动地图", text:
+"第1周·观察：每天记录一个让你情绪波动的感情时刻。不评判，只记录：发生了什么、你感受到了什么。\n第2周·连线：翻出第1周的记录，问自己：这种感受，在小时候有没有出现过？写下来，哪怕只有一句话。\n第3周·暂停练习：当你感觉到「那种强烈的吸引」时，给自己72小时的观察期。在行动前先问：这是真实的选择，还是熟悉的感觉？\n第4周·重新定义：写下你真正想要的关系是什么样的。不是「能给我那种感觉的人」，而是「让我真正安心的人」长什么样。" },
+        { title: "写给你", text:
+"你花了这么多年，爱那些让你感觉熟悉的人。\n现在，是时候给自己一个机会，去爱一个真正适合你的人了。\n那种「平静」，不是无聊。那是安全感。\n而安全感，是你从来没好好体验过的东西。\n你值得被好好爱。不是被拯救，不是被改造——就是被真实地看见，然后被接住。" }
+      ]
+    },
+    {
+      type: "本能探索型",
+      tagline: "你的感情选择大多跟着感觉走，而你的感觉基本上还算靠谱",
+      keywords: ["安全底色", "待探索", "轻盈但不够深"],
+      sections: [
+        { title: "行为画像", text:
+"你在感情里，是一个相对轻松自在的人。你不容易陷得太深，也不太容易被一段关系完全淹没。\n你选伴侣的方式，更多是「这个人感觉对就在一起」，而不是带着某种深层的执念。你爱过的人，可能类型各异，有时候你自己也说不清为什么喜欢某人——但结果通常还不错。\n你没有太多「为什么我总爱同一类人」的困惑，因为你爱的人差异挺大。" },
+        { title: "驱动力", text:
+"驱动你的，是好奇心、新鲜感，和当下真实的感受。\n你的原生家庭给了你一个稳定的底座，所以你在感情里不需要靠关系来填补什么。你谈恋爱，更多是因为「想谈」，而不是「需要」。\n这种状态，其实是很多人羡慕的。但它也有一个代价：正因为不太需要，你也许还没深挖过「我真正想要什么样的关系」。" },
+        { title: "压力下的你", text:
+"当关系出了问题，你的第一反应可能是：处理、或者离开。\n你不太会深陷在情绪里出不来。这是优点，但偶尔也会让你漏掉一些重要的信号——本来应该认真面对的事，被你轻描淡写地翻篇了。" },
+        { title: "适合你的环境", text:
+"你在轻松、有趣、相互尊重的关系里，状态最好。\n你需要空间，需要对方不要太黏，也需要持续有新鲜感——无论是旅行、聊天，还是对方本身的变化。\n你最受不了的，是太沉重的关系。如果对方情绪太复杂、需求太多，你会感到窒息，开始用忙碌或冷处理来制造距离——这不是冷漠，是你还没有建立好「在深度亲密里也能自在」的能力。" },
+        { title: "核心结论", text:
+"你总爱上同一类人吗？其实并不完全是。\n你的感情选择有相当大的自由度——因为你的底色是安全的，你不是被创伤驱动的。\n但「没有深层创伤」不等于「完全了解自己」。你还有一大片没被探索的内在领土：你真正渴望什么样的亲密？你愿意在感情里去到多深？\n这片领土，值得你去看一看。" },
+        { title: "深度解析", text:
+"从依恋理论的角度，你更接近安全型或者「轻回避型」——你有安全感，但亲密的深度还有上升空间。\n你现在的感情状态，用一句话描述：够用，但还不够丰富。\n大多数人这辈子就停在这个状态，因为「够用」就不太有动力再往深走。但如果你愿意往内看，你会发现，深度的亲密有一种「够用」以外的东西——它让你真正地被看见，而不只是被陪伴。" },
+        { title: "未来走势", text:
+"你现在的状态，是一个很好的起点。\n不需要大改变，只需要在下一段关系里，多问自己一个问题：\n「除了这种感觉，我还在这段关系里寻找什么？」\n这一个问题，会带你进入更深的自我认识。" },
+        { title: "探索建议", text:
+"不处理：你会一直保持「够用」的状态，轻盈但可能缺少深度。\n往深走：当你愿意往内探索，你会发现深度亲密有一种「够用」以外的东西——它让你真正地被看见，而不只是被陪伴。" },
+        { title: "30天行动地图", text:
+"第1周·列共同点：写下你爱过的人的3-5个共同点。不是外貌，是性格或相处方式。\n第2周·反问：这些共同点，让你想起谁？（可能是父母，可能是某段早期的重要关系）\n第3周·探索深度：问自己：在当前的关系或对感情的想象里，我愿意让对方看见我不完美的那一面吗？为什么愿意/不愿意？\n第4周·写下渴望：写下你最渴望在一段关系里得到的——不是对方的条件，而是一种「感觉」。" },
+        { title: "写给你", text:
+"你已经站在一个很好的地方了。\n你有安全感，你不沉重，你在感情里能做自己——这些，都是财富。\n下一步，是把这份轻盈，带进更深的地方。让它不只是「没有问题」，而是真正的丰盛。\n你有这个能力。也许只是还没遇到那个值得你往深走的人，或者那个往深走的契机。\n但当它出现的时候，你不需要害怕。" }
+      ]
+    }
+  ]
+};
+
+// ================================================================
+//  逻辑代码
+// ================================================================
+const FLAT = [];
+CONFIG.modules.forEach(m => m.questions.forEach(q =>
+  FLAT.push({ module: m.name, text: q.text, opts: q.opts })));
+const TOTAL = FLAT.length;
+
+let cur = 0;
+let answers = []; // 每题得分 1-4
+
+document.getElementById('coverCat').textContent = CONFIG.meta.category;
+document.getElementById('coverTitle').innerHTML = CONFIG.meta.title.replace(/\n/g,'<br>');
+document.getElementById('coverSub').textContent = CONFIG.meta.subtitle;
+document.getElementById('coverHint').textContent = CONFIG.meta.hint;
+document.getElementById('coverModules').innerHTML =
+  CONFIG.meta.modules.map(m => `<span class="cover-mod">${m}</span>`).join('');
+document.title = CONFIG.meta.title.replace(/\n/g,'');
+
+function show(id) {
+  ['pageCover','pageQuestion','pageLoading','pageResult'].forEach(p => {
+    document.getElementById(p).style.display = 'none';
+  });
+  const el = document.getElementById(id);
+  el.style.display = 'flex';
+  el.style.flexDirection = 'column';
+}
+
+function startTest() {
+  cur = 0; answers = [];
+  show('pageQuestion');
+  renderQ();
+}
+
+function renderQ() {
+  const q = FLAT[cur];
+  document.getElementById('progFill').style.width = (cur / TOTAL * 100) + '%';
+  document.getElementById('qMod').textContent = q.module;
+  document.getElementById('qNum').textContent =
+    String(cur + 1).padStart(2,'0') + ' / ' + String(TOTAL).padStart(2,'0');
+
+  const qEl = document.getElementById('qText');
+  const optsEl = document.getElementById('opts');
+  qEl.style.opacity = '0';
+  setTimeout(() => { qEl.textContent = q.text; qEl.style.opacity = '1'; }, 60);
+
+  optsEl.innerHTML = q.opts.map((o, i) =>
+    `<div class="opt" data-i="${i}" onclick="pick(this,${i+1})">
+      <div class="badge">${['A','B','C','D'][i]}</div>
+      <div class="opt-body">${o}</div>
+    </div>`).join('');
+
+  requestAnimationFrame(() => {
+    optsEl.querySelectorAll('.opt').forEach((el, i) => {
+      setTimeout(() => el.classList.add('in'), i * 55);
+    });
+  });
+}
+
+function pick(el, score) {
+  if (el.dataset.locked) return;
+  document.querySelectorAll('.opt').forEach(o => {
+    o.classList.remove('picked');
+    o.dataset.locked = '1';
+  });
+  el.classList.add('picked');
+  answers.push(score);
+  setTimeout(() => {
+    cur++;
+    if (cur < TOTAL) renderQ();
+    else showLoading();
+  }, 420);
+}
+
+function showLoading() {
+  show('pageLoading');
+  const texts = CONFIG.meta.loadingTexts;
+  let pct = 0, ti = 0;
+  const ltEl = document.getElementById('loadText');
+  ltEl.textContent = texts[0];
+  const iv = setInterval(() => {
+    pct += Math.random() * 18 + 6;
+    if (pct >= 100) { pct = 100; clearInterval(iv); setTimeout(showResult, 400); }
+    document.getElementById('loadPct').textContent = Math.floor(pct) + '%';
+    const ni = Math.min(Math.floor(pct / 40), texts.length - 1);
+    if (ni !== ti) { ti = ni; ltEl.style.opacity='0'; setTimeout(()=>{ ltEl.textContent=texts[ti]; ltEl.style.opacity='1'; }, 200); }
+  }, 280);
+}
+
+function calcResult() {
+  // 轴1：创伤底色 = 第1-16题得分之和
+  const traumaScore = answers.slice(0, 16).reduce((a, b) => a + b, 0);
+  // 轴2：觉察程度 = 第17-32题得分之和
+  const awareScore = answers.slice(16, 32).reduce((a, b) => a + b, 0);
+  const highTrauma = traumaScore > 32;
+  const lowAware = awareScore > 32;
+
+  let rIdx;
+  if (!highTrauma && !lowAware) rIdx = 0;       // 清醒引路型
+  else if (highTrauma && !lowAware) rIdx = 1;   // 疗愈觉醒型
+  else if (highTrauma && lowAware) rIdx = 2;    // 创伤重演型
+  else rIdx = 3;                                 // 本能探索型
+
+  return { rIdx, traumaScore, awareScore };
+}
+
+function showResult() {
+  const { rIdx, traumaScore, awareScore } = calcResult();
+  const r = CONFIG.results[rIdx];
+  show('pageResult');
+
+  document.getElementById('resType').textContent = r.type;
+  document.getElementById('resTagline').textContent = r.tagline;
+  document.getElementById('kwRow').innerHTML = r.keywords.map(k => `<span class="kw">${k}</span>`).join('');
+
+  // 两轴分布条
+  const traumaPct = Math.round((traumaScore - 16) / 48 * 100);
+  const awarePct = Math.round((1 - (awareScore - 16) / 48) * 100);
+  document.getElementById('distRows').innerHTML = `
+    <div class="dist-row">
+      <div class="dist-lab">创伤底色</div>
+      <div class="dist-bar"><i id="bar0"></i></div>
+      <div class="dist-num">${traumaPct}%</div>
+    </div>
+    <div class="dist-row">
+      <div class="dist-lab">模式觉察度</div>
+      <div class="dist-bar"><i id="bar1"></i></div>
+      <div class="dist-num">${awarePct}%</div>
+    </div>`;
+
+  document.getElementById('sections').innerHTML = r.sections.map(s =>
+    `<div class="sec">
+      <div class="sec-title">${s.title}</div>
+      <div class="sec-text">${s.text}</div>
+    </div>`).join('');
+
+  setTimeout(() => {
+    document.getElementById('pageResult').classList.add('vis');
+    document.getElementById('bar0').style.width = traumaPct + '%';
+    document.getElementById('bar1').style.width = awarePct + '%';
+  }, 80);
+  window.scrollTo(0, 0);
+}
+
+function restart() {
+  document.getElementById('pageResult').classList.remove('vis');
+  startTest();
+}
+</script>
+</body>
+</html>
